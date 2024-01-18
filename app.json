@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "90f572bc-5c76-4017-93ff-e3c464a21a09"
+      }
+    },
+    "owner": "tommysosa"
   }
 }
