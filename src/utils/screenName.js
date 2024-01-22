@@ -2,7 +2,8 @@ const accountStack = {
     tab: "AccountTab",
     account: "Account",
     login: "Login",
-    register: "Register"
+    register: "Register",
+    settings: "Settings"
 }
 
 const jobsStack = {

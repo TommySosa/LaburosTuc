@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     },
     avatar: {
         marginRight: 20,
-        backgroundColor: "green",
+        backgroundColor: "gray",
     },
     displayName: {
         fontWeight: "bold",

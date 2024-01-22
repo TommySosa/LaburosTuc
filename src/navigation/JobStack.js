@@ -10,21 +10,13 @@ const Stack = createNativeStackNavigator()
 export function AccountStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name={screen.account.account}
+            <Stack.Screen name={screen.jobs.jobs}
                 component={AccountScreen}
-                options={{ title: "Cuenta" }}
+                options={{ title: "Empleos" }}
             />
-            <Stack.Screen name={screen.account.login}
+            <Stack.Screen name={screen.jobs.addJob}
                 component={LoginScreen}
-                options={{ title: "Iniciar sesión" }}
-            />
-            <Stack.Screen name={screen.account.register}
-                component={RegisterScreen}
-                options={{ title: "Crea tu cuenta" }}
-            />
-            <Stack.Screen name={screen.account.settings}
-                component={SettingsScreen}
-                options={{ title: "Configuración" }}
+                options={{ title: "Agregar empleo" }}
             />
         </Stack.Navigator>
     )
