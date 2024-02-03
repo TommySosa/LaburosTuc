@@ -7,12 +7,14 @@ import { LoadingModal } from "../../components";
 
 export function AccountScreen() {
     const [hasLogged, setHasLogged] = useState(null)
+    const [userId, setUserId] = useState(null)
 
     useEffect(() => {
         const auth = getAuth()
 
         onAuthStateChanged(auth, (user) => {
             setHasLogged(user ? true : false)
+            setUserId(user ? user.uid : null)
         })
     }, [])
 
@@ -20,5 +22,5 @@ export function AccountScreen() {
         return <LoadingModal show text="Cargando" />
     }
 
-    return hasLogged ? <UserLoggedScreen /> : <UserGuestScreen />
+    return hasLogged ? <UserLoggedScreen idUser={userId} /> : <UserGuestScreen />
 }
