@@ -5,17 +5,11 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: 10,
     },
-    input: {
-        marginBottom: 10,
-    },
     btnContainer: {
         width: "95%",
+        marginTop: 10,
     },
     btn: {
         backgroundColor: "#00a680"
-    },
-    inputAlert: {
-        color: "red",
-        fontSize: 13
     }
 })

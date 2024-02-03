@@ -18,7 +18,11 @@ export function InfoUser(props) {
             aspect: [4, 3]
         })
 
-        if (!result.canceled) uploadImage(result.uri)
+        if (!result.canceled && result.assets.length > 0) {
+            const selectedImage = result.assets[0];
+            uploadImage(selectedImage.uri);
+        }
+
     }
 
     const uploadImage = async (uri) => {
@@ -32,7 +36,6 @@ export function InfoUser(props) {
 
         uploadBytes(storageRef, blob).then((snapshot) => {
             updatePhotoUrl(snapshot.metadata.fullPath)
-            console.log(snapshot.metadata);
         })
     }
 

@@ -7,7 +7,7 @@ import { initialValues, validationSchema } from './ChangePasswordForm.data'
 import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth"
 import Toast from 'react-native-toast-message'
 
-export function ChangePasswordForm({ onClose }) {
+export function ChangePasswordForm({ onClose, onReload }) {
     const [showPassword, setShowPassword] = useState(false)
 
     const onShowPassword = () => setShowPassword(prev => !prev)
@@ -24,10 +24,11 @@ export function ChangePasswordForm({ onClose }) {
                     formValue.password
                 )
 
-                reauthenticateWithCredential(currentUser, credentials)
+                await reauthenticateWithCredential(currentUser, credentials)
 
                 await updatePassword(currentUser, formValue.newPassword)
 
+                onReload()
                 onClose()
             } catch (error) {
                 console.log(error);
