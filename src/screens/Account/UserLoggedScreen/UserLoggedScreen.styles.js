@@ -42,7 +42,22 @@ export const styles = StyleSheet.create({
     },
     btnTextCv: {
         fontWeight: "bold"
+    },
+    editButton: {
+        position: 'relative',
+        marginRight: 10,
+    },
+    circle: {
+        position: 'absolute',
+        backgroundColor: '#ccc',
+        width: 25,
+        height: 25,
+        borderRadius: 100,
+        bottom: -25,
+        right: -10,
+    },
+    inputMessage: {
+        fontWeight: "600",
+        fontStyle: "italic"
     }
-
-
 })
