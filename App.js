@@ -1,5 +1,5 @@
-import { AppNavigation } from "./src/navigation/AppNavigation"
-import { NavigationContainer } from "@react-navigation/native"
+import { AppNavigation } from "./src/navigation/AppNavigation";
+import { NavigationContainer } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 
 export default function App() {
@@ -12,4 +12,3 @@ export default function App() {
     </>
   );
 }
-
