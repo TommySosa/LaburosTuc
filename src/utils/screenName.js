@@ -11,8 +11,8 @@ const jobsStack = {
   jobs: "Jobs",
   addJob: "AddJob",
   job: "Job",
-  addReviewJob: "addReviewJob",
-  ubication: "ubication",
+  addReviewJob: "AddReviewJob",
+  ubication: "Ubication",
 };
 
 const favoritesStack = {
