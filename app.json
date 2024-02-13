@@ -34,6 +34,11 @@
         "INTERNET",
         "READ_EXTERNAL_STORAGE"
       ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAU1omvVT_M8pnDPqxsus1Y3PUQQ5RmWv4"
+        }
+      },
       "package": "com.tommysosa.laburostuc"
     },
     "web": {
