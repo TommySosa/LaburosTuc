@@ -4,12 +4,6 @@ export const styles = StyleSheet.create({
     content: {
         marginHorizontal: 10,
     },
-    textarea: {
-        height: 100,
-        width: "100%",
-        padding: 0,
-        margin: 0
-    },
     dropdown: {
         marginHorizontal: 10,
         marginBottom: 5,
@@ -25,7 +19,7 @@ export const styles = StyleSheet.create({
         borderRadius: 12,
     },
     selectedTextStyle: {
-        fontSize: 18,
+        fontSize: 14,
     },
     iconStyle: {
         width: 20,
@@ -36,7 +30,8 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
     error: {
-        marginLeft: 14,
+        // marginBottom: 20,
+        marginLeft: 12,
         color: "red",
         fontSize: 12
     }

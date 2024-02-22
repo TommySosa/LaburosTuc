@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
     viewImage: {
         flexDirection: "row",
         marginHorizontal: 20,
-        marginTop: 30
+        marginTop: 10
     },
     containerIcon: {
         justifyContent: "center",
@@ -24,6 +24,9 @@ export const styles = StyleSheet.create({
         width: 70,
         height: 70,
         marginRight: 10,
-
+    },
+    text: {
+        marginLeft: 20,
+        color: "gray"
     }
 })
