@@ -6,6 +6,8 @@ import { AccountStack } from "./AccountStack";
 import { screen } from "../utils";
 import { JobStack } from "./JobStack";
 import { useNavigation } from "@react-navigation/native";
+import { ServiceStack } from "./ServiceStack";
+import { FeedNavigation } from "./FeedNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +18,7 @@ export function AppNavigation() {
   function screenOptions(route, color, size) {
     let iconName;
 
-    if (route.name === screen.jobs.jobs) {
+    if (route.name === screen.feed.tab) {
       iconName = "briefcase-search";
     }
     if (route.name === screen.favorites.tab) {
@@ -30,6 +32,10 @@ export function AppNavigation() {
     }
     if (route.name === screen.account.tab) {
       iconName = "account-tie";
+    }
+    if (route.name === screen.services.tab) {
+      console.log("AQUI");
+      return null
     }
 
     return (
@@ -66,12 +72,13 @@ export function AppNavigation() {
           tabBarInactiveTintColor: "#646464",
           tabBarIcon: ({ color, size }) => screenOptions(route, color, size),
           tabBarStyle: { backgroundColor: "#06E092", height: 55 },
+          tabBarHideOnKeyboard: true
         })}
       >
         <Tab.Screen
-          name={screen.jobs.jobs}
-          component={AccountStack}
-          options={{ title: "Empleos" }}
+          name={screen.feed.tab}
+          component={FeedNavigation}
+          options={{ title: "Feed" }}
         />
         <Tab.Screen
           name={screen.ranking.tab}
@@ -83,6 +90,15 @@ export function AppNavigation() {
           component={JobStack}
           options={{ title: "" }}
         />
+        <Tab.Screen
+          name={screen.services.tab}
+          component={ServiceStack}
+          options={() => ({
+            title: "Servicios",
+            tabBarButton: () => null,
+          })}
+        />
+
         <Tab.Screen
           name={screen.favorites.tab}
           component={AccountStack}
@@ -114,7 +130,8 @@ export function AppNavigation() {
           <TouchableOpacity
             style={[styles.fab, styles.shadow]}
             onPress={() => {
-              // navigation.navigate(screen.services.tab)
+              navigation.navigate(screen.services.tab);
+
               setShowFAB(!showFAB);
             }}
           >
@@ -130,6 +147,7 @@ export function AppNavigation() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   fabContainer: {
@@ -156,5 +174,5 @@ const styles = StyleSheet.create({
   },
   shadow: {
     elevation: 6,
-  },
+  }
 });

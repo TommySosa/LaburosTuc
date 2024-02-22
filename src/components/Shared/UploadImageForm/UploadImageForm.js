@@ -13,7 +13,7 @@ export function UploadImageForm({ formik }) {
 
     const openGallery = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 0.7,
         })
@@ -68,6 +68,7 @@ export function UploadImageForm({ formik }) {
 
     return (
         <>
+            <Text style={styles.text}>Subir imágenes</Text>
             <ScrollView style={styles.viewImage} horizontal showsHorizontalScrollIndicator={true}>
                 <Icon type='material-community'
                     name='camera'

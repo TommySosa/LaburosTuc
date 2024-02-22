@@ -12,8 +12,21 @@ const jobsStack = {
   addJob: "AddJob",
   job: "Job",
   addReviewJob: "AddReviewJob",
-  ubication: "Ubication",
 };
+
+const serviceStack = {
+  tab: "ServicesTab",
+  services: "Services",
+  addService: "AddService",
+  service: "Service",
+  addReviewService: "AddReviewService",
+}
+
+const feedStack = {
+  tab: "Feed",
+  jobs: "JobsTab",
+  services: "ServicesTab"
+}
 
 const favoritesStack = {
   tab: "FavoritesTab",
@@ -32,7 +45,9 @@ const searchStack = {
 
 export const screen = {
   account: accountStack,
+  feed: feedStack,
   jobs: jobsStack,
+  services: serviceStack,
   favorites: favoritesStack,
   ranking: rankingStack,
   search: searchStack,

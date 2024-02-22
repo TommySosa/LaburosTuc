@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Input, Text } from 'react-native-elements'
 import { styles } from "./InfoForm.styles"
-import { MapForm } from '../../Shared/MapForm/MapForm'
-import { Dropdown, MultiSelect } from 'react-native-element-dropdown'
-import { data } from '../../../utils/ArrayServices'
+import { MapForm } from '../Shared/MapForm/MapForm'
+import { MultiSelect } from 'react-native-element-dropdown'
+import { data } from '../../utils/ArrayServices'
 
 export function InfoForm({ formik }) {
     const [showMap, setShowMap] = useState(false)
@@ -12,7 +12,7 @@ export function InfoForm({ formik }) {
         setShowMap(prev => !prev)
     }
     const [address, setAddress] = useState('');
-    const [category, setCategory] = useState(null)
+    const [categories, setCategories] = useState([])
 
     return (
         <>
@@ -23,11 +23,7 @@ export function InfoForm({ formik }) {
                     errorMessage={formik.errors.description}
                     placeholderTextColor="#bdbdbd"
                 />
-                {/* <Input placeholder='Cargo a cubrir'
-                    onChangeText={(text) => formik.setFieldValue("name", text)}
-                    errorMessage={formik.errors.name}
-                /> */}
-                <Dropdown
+                <MultiSelect
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
@@ -40,30 +36,24 @@ export function InfoForm({ formik }) {
                     valueField="value"
                     placeholder="Selecciona el rubro"
                     searchPlaceholder="Buscar..."
-                    value={category}
-                    onChange={item => {
-                        console.log(item);
-                        setCategory(item.value);
-                        formik.setFieldValue("category", item.label);
-                        console.log(category);
+                    value={categories}
+                    onChange={items => {
+                        console.log(items);
+                        setCategories(items);
+                        formik.setFieldValue("services", items);
+                        console.log(categories);
                     }}
                     selectedStyle={styles.selectedStyle}
                 />
-                {formik.errors.category ? <Text style={styles.error}>{formik.errors.category}</Text> : null}
-                <Input placeholder='Horarios'
+                {formik.errors.services ? <Text style={styles.error}>{formik.errors.services}</Text> : null}
+                <Input placeholder='Horarios disponibles'
                     multiline={true}
                     onChangeText={(text) => formik.setFieldValue("schedules", text)}
                     errorMessage={formik.errors.schedules}
+                    placeholderTextColor="#bdbdbd"
                     style={{ marginTop: 30 }}
-                    placeholderTextColor="#bdbdbd"
                 />
-                <Input placeholder='Remuneración'
-                    onChangeText={(text) => formik.setFieldValue("remuneration", text)}
-                    errorMessage={formik.errors.remuneration}
-                    placeholderTextColor="#bdbdbd"
-                />
-
-                <Input placeholder='Ubicación del lugar de trabajo'
+                <Input placeholder='Tu ubicación'
                     rightIcon={{
                         type: "material-community",
                         name: "map-marker-radius",
@@ -74,8 +64,9 @@ export function InfoForm({ formik }) {
                     disabled
                     multiline
                     errorMessage={formik.errors.address}
-                    placeholderTextColor="#bdbdbd"
+                    placeholderTextColor="gray"
                 />
+
             </View>
             <MapForm show={showMap} close={onOpenCloseMap} formik={formik} address={address} setAddress={setAddress} />
         </>
@@ -89,3 +80,4 @@ const getColorIconMap = (formik) => {
 
     return "#c2c2c2"
 }
+

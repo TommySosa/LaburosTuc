@@ -1,9 +1,9 @@
 import React from 'react'
 import { View } from 'react-native'
-import { styles } from './ImageJob.styles'
+import { styles } from './PrincipalImage.styles'
 import { Image } from 'react-native-elements'
 
-export function ImageJob({ formik }) {
+export function PrincipalImage({ formik }) {
     const principalImage = formik.values.images[0]
 
     return (

@@ -19,7 +19,7 @@ export function MapForm({ show, close, formik, address, setAddress }) {
         longitudeDelta: 0.001,
     })
     useEffect(() => {
-        Geocoding.init("AIzaSyAU1omvVT_M8pnDPqxsus1Y3PUQQ5RmWv4");
+        Geocoding.init(process.env.EXPO_PUBLIC_API_KEY_MAPS);
     }, []);
 
     const searchAddress = async () => {
