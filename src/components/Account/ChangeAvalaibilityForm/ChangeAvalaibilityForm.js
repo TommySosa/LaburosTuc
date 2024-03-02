@@ -32,7 +32,7 @@ export function ChangeAvalaibilityForm({ onClose, onReload }) {
             try {
                 const newData = {
                     ...userInfo,
-                    availaibility: formValue.availaibility
+                    availability: formValue.availability
                 }
                 newData.idUser = currentUser.uid
 
@@ -57,10 +57,10 @@ export function ChangeAvalaibilityForm({ onClose, onReload }) {
             <Input placeholder='Indica tu disponibilidad'
                 rightIcon={{ type: "material-community", name: "timer-sand", color: "#c2c2c2" }}
                 multiline
-                onChangeText={(text) => formik.setFieldValue("availaibility", text)}
-                value={formik.values.availaibility}
+                onChangeText={(text) => formik.setFieldValue("availability", text)}
+                value={formik.values.availability}
                 inputStyle={styles.input}
-                errorMessage={formik.errors.availaibility}
+                errorMessage={formik.errors.availability}
             />
             <Button title="Cambiar disponibilidad"
                 containerStyle={styles.btnContainer}

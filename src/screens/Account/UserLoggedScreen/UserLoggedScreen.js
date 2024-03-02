@@ -55,7 +55,7 @@ export function UserLoggedScreen({ idUser }) {
   const selectedComponent = (key) => {
     if (key === "cv") {
       setRenderComponent(
-        <ChangeCvForm onClose={onCloseOpenModal} onReload={onReload} />
+        <ChangeCvForm onClose={onCloseOpenModal} onReload={onReload} isBeforeRegister={true} />
       );
     }
     if (key === "description") {
@@ -70,7 +70,7 @@ export function UserLoggedScreen({ idUser }) {
       );
     }
 
-    if (key === "avalaibility") {
+    if (key === "availability") {
       setRenderComponent(
         <ChangeAvalaibilityForm
           onClose={onCloseOpenModal}
@@ -79,11 +79,11 @@ export function UserLoggedScreen({ idUser }) {
       );
     }
 
-    if (key === "interest") {
-      setRenderComponent(
-        <ChangeInterestsForm onClose={onCloseOpenModal} onReload={onReload} />
-      );
-    }
+    // if (key === "interest") {
+    //   setRenderComponent(
+    //     <ChangeInterestsForm onClose={onCloseOpenModal} onReload={onReload} />
+    //   );
+    // }
 
     if (key === "phone") {
       setRenderComponent(
@@ -133,19 +133,19 @@ export function UserLoggedScreen({ idUser }) {
         iconColorLeft: "#ccc",
         iconNameRight: "chevron-right",
         iconColorRight: "#ccc",
-        text: userInfo.availaibility,
-        onPress: () => selectedComponent("avalaibility"),
+        text: userInfo.availability,
+        onPress: () => selectedComponent("availability"),
       },
-      {
-        title: "Intereses",
-        iconType: "material-community",
-        iconNameLeft: "cards-playing-heart-multiple",
-        iconColorLeft: "#ccc",
-        iconNameRight: "chevron-right",
-        iconColorRight: "#ccc",
-        text: userInfo.interests,
-        onPress: () => selectedComponent("interest"),
-      },
+      // {
+      //   title: "Intereses",
+      //   iconType: "material-community",
+      //   iconNameLeft: "cards-playing-heart-multiple",
+      //   iconColorLeft: "#ccc",
+      //   iconNameRight: "chevron-right",
+      //   iconColorRight: "#ccc",
+      //   text: userInfo.interests,
+      //   onPress: () => selectedComponent("interest"),
+      // },
       {
         title: "Teléfono",
         iconType: "material-community",
@@ -189,7 +189,7 @@ export function UserLoggedScreen({ idUser }) {
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
         cv={userInfo.cv}
-        fileName={"tomassosa"}
+        fileName={currentUser.displayName}
       />
 
       <View style={styles.content}>

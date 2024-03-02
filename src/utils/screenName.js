@@ -4,6 +4,7 @@ const accountStack = {
   login: "Login",
   register: "Register",
   settings: "Settings",
+  completeUserInfo: "CompleteUserInfo"
 };
 
 const jobsStack = {

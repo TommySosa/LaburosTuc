@@ -8,6 +8,6 @@ export function initialValues() {
 
 export function validationSchema() {
     return Yup.object({
-        description: Yup.string().required("Campo obligatorio").max(150, "Superaste el máximo de carácteres (150)")
+        description: Yup.string().required("Campo obligatorio").max(250, "Superaste el máximo de carácteres (250)")
     })
 }

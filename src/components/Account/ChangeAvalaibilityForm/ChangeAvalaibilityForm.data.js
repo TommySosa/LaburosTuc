@@ -2,12 +2,12 @@ import * as Yup from "yup"
 
 export function initialValues() {
     return {
-        availaibility: "",
+        availability: "",
     }
 }
 
 export function validationSchema() {
     return Yup.object({
-        availaibility: Yup.string().required("Campo obligatorio")
+        availability: Yup.string().required("Campo obligatorio")
     })
 }

@@ -23,7 +23,7 @@ import {
     uploadBytes,
 } from 'firebase/storage';
 
-export function ChangeCvForm({ onClose, onReload }) {
+export function ChangeCvForm({ onClose, onReload, isBeforeRegister, setCvUrl }) {
     const [userInfo, setUserInfo] = useState({});
     const currentUser = getAuth().currentUser;
     const [pickedFile, setPickedFile] = useState(null);
@@ -81,11 +81,11 @@ export function ChangeCvForm({ onClose, onReload }) {
                     setIsLoading(false);
                 });
             } catch (error) {
-                console.error('Error al cambiar el curriculum:', error);
+                console.error('Error al subir el curriculum:', error);
                 Toast.show({
                     type: 'error',
                     position: 'bottom',
-                    text1: 'Error al cambiar el curriculum',
+                    text1: 'Error al subir el curriculum',
                 });
                 setIsLoading(false);
             }
@@ -109,8 +109,14 @@ export function ChangeCvForm({ onClose, onReload }) {
 
         await setDoc(myDb, newData);
 
-        onReload();
-        onClose();
+        if (!isBeforeRegister) {
+            setCvUrl(cvUrl)
+        }
+
+        if (isBeforeRegister) {
+            onReload();
+            onClose();
+        }
     }
 
     return (
@@ -126,7 +132,7 @@ export function ChangeCvForm({ onClose, onReload }) {
                 <Text style={{ color: 'red', marginBottom: 10 }}>{formik.errors.cv}</Text>
             )}
             <Button
-                title="Cambiar curriculum"
+                title="Guardar"
                 containerStyle={styles.btnContainer}
                 buttonStyle={styles.btn}
                 onPress={formik.handleSubmit}

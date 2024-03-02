@@ -3,6 +3,7 @@ import { AccountScreen } from "../screens/Account/AccountScreen";
 import { LoginScreen } from "../screens/Account/LoginScreen/LoginScreen";
 import { RegisterScreen } from "../screens/Account/RegisterScreen/RegisterScreen";
 import { screen } from "../utils";
+import { CompleteUserInfo } from "../screens/Account/CompleteUserInfo/CompleteUserInfo";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ export function AccountStack() {
         name={screen.account.register}
         component={RegisterScreen}
         options={{ title: "Crea tu cuenta" }}
+      />
+      <Stack.Screen
+        name={screen.account.completeUserInfo}
+        component={CompleteUserInfo}
+        options={{ title: "Completá tu información" }}
       />
     </Stack.Navigator>
   );

@@ -5,10 +5,11 @@ import { styles } from './RegisterForm.styles'
 import { useFormik } from 'formik'
 import { initialValues, validationSchema } from './RegisterForm.data'
 import { useState } from 'react'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
 import { useNavigation } from "@react-navigation/native"
 import Toast from 'react-native-toast-message'
-import { screen } from '../../../utils'
+import { db, screen } from '../../../utils'
+import { doc, setDoc } from 'firebase/firestore'
 
 export function RegisterForm() {
     const [showPassword, setShowPassword] = useState(false)
@@ -20,12 +21,30 @@ export function RegisterForm() {
         onSubmit: async (formValue) => {
             try {
                 const auth = getAuth()
-                await createUserWithEmailAndPassword(
+                const { user } = await createUserWithEmailAndPassword(
                     auth,
                     formValue.email,
                     formValue.password
                 )
-                navigation.navigate(screen.account.account)
+                await updateProfile(user, {
+                    displayName: `${formValue.names.trim()} ${formValue.surnames.trim()}`
+                })
+
+                const defaultUserInfo = {
+                    idUser: user.uid,
+                    availaibility: "",
+                    cv: "",
+                    description: "",
+                    education: "",
+                    email: user.email,
+                    interests: "",
+                    phone: ""
+                }
+
+                const myDb = doc(db, "usersInfo", defaultUserInfo.idUser)
+
+                await setDoc(myDb, defaultUserInfo)
+                navigation.navigate(screen.account.completeUserInfo)
             } catch (error) {
                 Toast.show({
                     type: "error",
@@ -46,6 +65,18 @@ export function RegisterForm() {
                 rightIcon={<Icon type='material-community' name='at' iconStyle={styles.icon} />}
                 onChangeText={(text) => formik.setFieldValue("email", text)}
                 errorMessage={formik.errors.email}
+            />
+            <Input placeholder='Nombres'
+                containerStyle={styles.input}
+                rightIcon={<Icon type='material-community' name='card-account-details-outline' iconStyle={styles.icon} />}
+                onChangeText={(text) => formik.setFieldValue("names", text)}
+                errorMessage={formik.errors.names}
+            />
+            <Input placeholder='Apellidos'
+                containerStyle={styles.input}
+                rightIcon={<Icon type='material-community' name='card-account-details-outline' iconStyle={styles.icon} />}
+                onChangeText={(text) => formik.setFieldValue("surnames", text)}
+                errorMessage={formik.errors.surnames}
             />
             <Input placeholder='Contraseña'
                 containerStyle={styles.input}

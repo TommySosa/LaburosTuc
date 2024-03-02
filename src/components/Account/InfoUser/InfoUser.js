@@ -59,7 +59,7 @@ export function InfoUser(props) {
             <Avatar size="large" rounded
                 containerStyle={styles.avatar}
                 icon={{ type: "material-community", name: "account" }}
-                source={photoURL ? { uri: avatar } : null}
+                source={photoURL ? { uri: avatar } : undefined}
             >
                 <Avatar.Accessory size={24} onPress={changeAvatar} />
             </Avatar>

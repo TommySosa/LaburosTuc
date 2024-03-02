@@ -5,20 +5,21 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 30
+        marginTop: 15
     },
     input: {
         width: "100%",
-        marginTop: 20,
+        marginTop: 5,
     },
     icon: {
         color: "#c1c1c1"
     },
     btnContainer: {
-        marginTop: 20,
+        marginTop: 15,
+        marginBottom: 35,
         width: "95%"
     },
     btn: {
-        backgroundColor: "#00a680"
+        backgroundColor: "#06E092"
     }
 })
