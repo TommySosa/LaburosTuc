@@ -78,7 +78,7 @@ export function AppNavigation() {
         <Tab.Screen
           name={screen.feed.tab}
           component={FeedNavigation}
-          options={{ title: "Feed" }}
+          options={{ title: "Empleos" }}
         />
         <Tab.Screen
           name={screen.ranking.tab}

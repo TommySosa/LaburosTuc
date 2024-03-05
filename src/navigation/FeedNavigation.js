@@ -1,9 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { AccountScreen } from '../screens/Account/AccountScreen'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { screen } from '../utils';
+import FeedScreen from "../screens/Feed/FeedScreen"
+import JobScreen from '../screens/Feed/Job/JobScreen';
+import ServiceScreen from '../screens/Feed/Service/ServiceScreen'
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -19,26 +21,10 @@ export function FeedNavigation() {
                     tabBarStyle: { backgroundColor: "#06E092", height: 55 },
                 })}
             >
-                <TopTab.Screen name={screen.jobs.jobs} component={Screen1} options={{ title: "Empleos" }} />
-                <TopTab.Screen name="Screen2" component={Screen2} options={{ title: "Servicios" }} />
+                <TopTab.Screen name={screen.feed.jobs} component={JobScreen} options={{ title: "Empleos" }} />
+                <TopTab.Screen name={screen.feed.services} component={ServiceScreen} options={{ title: "Servicios" }} />
             </TopTab.Navigator>
         </SafeAreaView>
-    );
-}
-
-function Screen1() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Screen 1</Text>
-        </View>
-    );
-}
-
-function Screen2() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Screen 2</Text>
-        </View>
     );
 }
 

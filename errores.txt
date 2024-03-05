@@ -1,0 +1,1 @@
+1- advertencia de que la contraseña debe tener minimo 6 caracteres 
