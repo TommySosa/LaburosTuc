@@ -5,13 +5,14 @@ export const styles = StyleSheet.create({
         resizeMode: "contain",
         width: "100%",
         height: 150,
-        marginTop: 20
+        marginTop: 20,
     },
     content: {
         marginHorizontal: 40,
+        marginBottom: 20,
     },
     textRegister: {
-        marginTop: 15,
+        marginTop: 5,
         marginHorizontal: 10,
     },
     btnRegister: {
