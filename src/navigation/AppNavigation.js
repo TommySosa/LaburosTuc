@@ -8,6 +8,8 @@ import { JobStack } from "./JobStack";
 import { useNavigation } from "@react-navigation/native";
 import { ServiceStack } from "./ServiceStack";
 import { FeedNavigation } from "./FeedNavigation";
+import { JobSeeMoreScreen } from "../screens/Feed/JobSeeMore/JobSeeMoreScreen";
+import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -98,7 +100,6 @@ export function AppNavigation() {
             tabBarButton: () => null,
           })}
         />
-
         <Tab.Screen
           name={screen.favorites.tab}
           component={AccountStack}
@@ -107,7 +108,27 @@ export function AppNavigation() {
         <Tab.Screen
           name={screen.account.tab}
           component={AccountStack}
-          options={{ title: "Cuenta" }}
+          options={{ title: "Perfil" }}
+        />
+        <Tab.Screen
+          name={screen.account.seeProfile}
+          component={SeeProfile}
+          options={{ title: "Perfil", tabBarButton: () => null, headerShown: true }}
+        />
+        <Tab.Screen
+          name={screen.feed.jobSeeMore}
+          component={JobSeeMoreScreen}
+          options={{
+            title: "Ver más", tabBarButton: () => null, headerShown: true, headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={24}
+                color="black"
+                iconStyle={{ marginLeft: 10 }}
+                onPress={() => navigation.goBack()}
+              />
+            )
+          }}
         />
       </Tab.Navigator>
 

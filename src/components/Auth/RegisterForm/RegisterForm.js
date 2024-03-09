@@ -31,13 +31,14 @@ export function RegisterForm() {
                 })
 
                 const defaultUserInfo = {
+                    displayName: user.displayName,
+                    photoURL: "",
                     idUser: user.uid,
                     availaibility: "",
                     cv: "",
                     description: "",
                     education: "",
                     email: user.email,
-                    interests: "",
                     phone: ""
                 }
 

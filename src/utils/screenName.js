@@ -4,7 +4,8 @@ const accountStack = {
   login: "Login",
   register: "Register",
   settings: "Settings",
-  completeUserInfo: "CompleteUserInfo"
+  completeUserInfo: "CompleteUserInfo",
+  seeProfile: "seeProfile"
 };
 
 const jobsStack = {
@@ -26,7 +27,8 @@ const serviceStack = {
 const feedStack = {
   tab: "Feed",
   jobs: "JobsTab",
-  services: "ServicesTab"
+  services: "ServicesTab",
+  jobSeeMore: "JobSeeMore"
 }
 
 const favoritesStack = {

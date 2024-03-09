@@ -12,16 +12,6 @@ export function JobStack() {
         component={AddJobScreen}
         options={{ title: "Publicar empleo" }}
       />
-      {/* <Stack.Screen
-        name={screen.jobs.addJob}
-        component={AddJobScreen}
-        options={{ title: "Agregar empleo" }}
-      /> */}
-      {/* <Stack.Screen
-        name={screen.jobs.ubication}
-        component={UbicationScreen}
-        options={{ title: "Ubicacion" }}
-      /> */}
     </Stack.Navigator>
   );
 }

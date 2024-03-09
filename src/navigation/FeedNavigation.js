@@ -1,9 +1,8 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { screen } from '../utils';
-import FeedScreen from "../screens/Feed/FeedScreen"
 import JobScreen from '../screens/Feed/Job/JobScreen';
 import ServiceScreen from '../screens/Feed/Service/ServiceScreen'
 
@@ -21,8 +20,8 @@ export function FeedNavigation() {
                     tabBarStyle: { backgroundColor: "#06E092", height: 55 },
                 })}
             >
-                <TopTab.Screen name={screen.feed.jobs} component={JobScreen} options={{ title: "Empleos" }} />
-                <TopTab.Screen name={screen.feed.services} component={ServiceScreen} options={{ title: "Servicios" }} />
+                <TopTab.Screen name={screen.jobs.jobs} component={JobScreen} options={{ title: "Empleos" }} />
+                <TopTab.Screen name={screen.services.services} component={ServiceScreen} options={{ title: "Servicios" }} />
             </TopTab.Navigator>
         </SafeAreaView>
     );

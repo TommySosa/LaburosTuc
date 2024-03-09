@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Input, Text } from 'react-native-elements'
 import { styles } from "./InfoForm.styles"
 import { MapForm } from '../../Shared/MapForm/MapForm'
-import { Dropdown, MultiSelect } from 'react-native-element-dropdown'
+import { Dropdown } from 'react-native-element-dropdown'
 import { data } from '../../../utils/ArrayServices'
 
 export function InfoForm({ formik }) {
@@ -23,10 +23,6 @@ export function InfoForm({ formik }) {
                     errorMessage={formik.errors.description}
                     placeholderTextColor="#bdbdbd"
                 />
-                {/* <Input placeholder='Cargo a cubrir'
-                    onChangeText={(text) => formik.setFieldValue("name", text)}
-                    errorMessage={formik.errors.name}
-                /> */}
                 <Dropdown
                     style={styles.dropdown}
                     placeholderStyle={styles.placeholderStyle}

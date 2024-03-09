@@ -12,7 +12,6 @@ import { ChangeEmailForm } from "../../../components/Account";
 import { ChangeDescriptionForm } from "../../../components/Account/ChangeDescriptionForm/ChangeDescriptionForm";
 import { ChangeEducationForm } from "../../../components/Account/ChangeEducationForm/ChangeEducationForm";
 import { ChangeAvalaibilityForm } from "../../../components/Account/ChangeAvalaibilityForm/ChangeAvalaibilityForm";
-import { ChangeInterestsForm } from "../../../components/Account/ChangeInterestsForm/ChangeInterestsForm";
 import { ChangePhoneForm } from "../../../components/Account/ChangePhoneForm/ChangePhoneForm";
 import { where, query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../utils";
@@ -47,6 +46,7 @@ export function UserLoggedScreen({ idUser }) {
     }
   }, [idUser]);
 
+
   const Logout = async () => {
     const auth = getAuth();
     await signOut(auth);
@@ -78,12 +78,6 @@ export function UserLoggedScreen({ idUser }) {
         />
       );
     }
-
-    // if (key === "interest") {
-    //   setRenderComponent(
-    //     <ChangeInterestsForm onClose={onCloseOpenModal} onReload={onReload} />
-    //   );
-    // }
 
     if (key === "phone") {
       setRenderComponent(
@@ -136,16 +130,6 @@ export function UserLoggedScreen({ idUser }) {
         text: userInfo.availability,
         onPress: () => selectedComponent("availability"),
       },
-      // {
-      //   title: "Intereses",
-      //   iconType: "material-community",
-      //   iconNameLeft: "cards-playing-heart-multiple",
-      //   iconColorLeft: "#ccc",
-      //   iconNameRight: "chevron-right",
-      //   iconColorRight: "#ccc",
-      //   text: userInfo.interests,
-      //   onPress: () => selectedComponent("interest"),
-      // },
       {
         title: "Teléfono",
         iconType: "material-community",
