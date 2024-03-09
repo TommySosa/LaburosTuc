@@ -34,7 +34,7 @@ export function JobSeeMoreScreen({ route }) {
                     <Carousel images={job.images} height={250} width={width} />
                     <Header job={job} />
                     <Info job={job} isJob={true} />
-                    <BtnFavoriteJob id={job.id} />
+                    <BtnFavoriteJob id={id} />
                 </>
             )}
         </ScrollView>
