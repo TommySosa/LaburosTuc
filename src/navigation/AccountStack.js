@@ -4,6 +4,7 @@ import { LoginScreen } from "../screens/Account/LoginScreen/LoginScreen";
 import { RegisterScreen } from "../screens/Account/RegisterScreen/RegisterScreen";
 import { screen } from "../utils";
 import { CompleteUserInfo } from "../screens/Account/CompleteUserInfo/CompleteUserInfo";
+import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +14,7 @@ export function AccountStack() {
       <Stack.Screen
         name={screen.account.account}
         component={AccountScreen}
-        options={{ title: "Cuenta" }}
+        options={{ title: "Perfil" }}
       />
       <Stack.Screen
         name={screen.account.login}
@@ -30,6 +31,11 @@ export function AccountStack() {
         component={CompleteUserInfo}
         options={{ title: "Completá tu información" }}
       />
+      {/* <Stack.Screen
+        name={screen.account.seeProfile}
+        component={SeeProfile}
+        options={{ title: "Perfil de:" }}
+      /> */}
     </Stack.Navigator>
   );
 }

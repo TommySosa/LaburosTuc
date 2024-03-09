@@ -13,9 +13,8 @@ const Post = ({ title, description, schedule, salary, location, imageUri }) => (
       <Text>Location: {location}</Text>
     </View>
 
-    {/* Botón para interactuar con el post (puedes personalizar esto según tus necesidades) */}
     <Button
-      title="Me interesa"
+      title="Ver más"
       type="outline"
       onPress={() => console.log(`Me gusta el post: ${title}`)}
       containerStyle={{ marginTop: 10 }}
@@ -57,7 +56,6 @@ const JobScreen = () => {
       imageUri:
         "https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/There-are-ways-to-make-your-job-application-stand-out-from-the-crowd-/960x0.jpg?format=jpg&width=960",
     },
-    // Agrega más objetos de post según sea necesario
   ];
 
   return (
