@@ -9,13 +9,14 @@ import { useNavigation } from "@react-navigation/native";
 import { ServiceStack } from "./ServiceStack";
 import { FeedNavigation } from "./FeedNavigation";
 import { JobSeeMoreScreen } from "../screens/Feed/JobSeeMore/JobSeeMoreScreen";
+import  ServiceSeeMoreScreen  from "../screens/Feed/ServiceSeeMore/ServiceSeeMoreScreen";
 import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 
 const Tab = createBottomTabNavigator();
 
 export function AppNavigation() {
   const [showFAB, setShowFAB] = useState(false);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   function screenOptions(route, color, size) {
     let iconName;
@@ -37,30 +38,29 @@ export function AppNavigation() {
     }
     if (route.name === screen.services.tab) {
       console.log("AQUI");
-      return null
+      return null;
     }
 
     return (
       <>
-        {
-          iconName === "plus-circle" ?
-            <Icon
-              type="material-community"
-              name="plus-circle"
-              color={color}
-              size={size}
-              containerStyle={{ position: "absolute" }}
-              onPress={() => setShowFAB(!showFAB)}
-            />
-            : <Icon
-              type="material-community"
-              name={iconName}
-              color={color}
-              size={size}
-              containerStyle={iconName}
-            />
-        }
-
+        {iconName === "plus-circle" ? (
+          <Icon
+            type="material-community"
+            name="plus-circle"
+            color={color}
+            size={size}
+            containerStyle={{ position: "absolute" }}
+            onPress={() => setShowFAB(!showFAB)}
+          />
+        ) : (
+          <Icon
+            type="material-community"
+            name={iconName}
+            color={color}
+            size={size}
+            containerStyle={iconName}
+          />
+        )}
       </>
     );
   }
@@ -74,7 +74,7 @@ export function AppNavigation() {
           tabBarInactiveTintColor: "#646464",
           tabBarIcon: ({ color, size }) => screenOptions(route, color, size),
           tabBarStyle: { backgroundColor: "#06E092", height: 55 },
-          tabBarHideOnKeyboard: true
+          tabBarHideOnKeyboard: true,
         })}
       >
         <Tab.Screen
@@ -113,13 +113,20 @@ export function AppNavigation() {
         <Tab.Screen
           name={screen.account.seeProfile}
           component={SeeProfile}
-          options={{ title: "Perfil", tabBarButton: () => null, headerShown: true }}
+          options={{
+            title: "Perfil",
+            tabBarButton: () => null,
+            headerShown: true,
+          }}
         />
         <Tab.Screen
           name={screen.feed.jobSeeMore}
           component={JobSeeMoreScreen}
           options={{
-            title: "Ver más", tabBarButton: () => null, headerShown: true, headerLeft: () => (
+            title: "Ver más",
+            tabBarButton: () => null,
+            headerShown: true,
+            headerLeft: () => (
               <Icon
                 name="arrow-back"
                 size={24}
@@ -127,7 +134,25 @@ export function AppNavigation() {
                 iconStyle={{ marginLeft: 10 }}
                 onPress={() => navigation.goBack()}
               />
-            )
+            ),
+          }}
+        />
+        <Tab.Screen
+          name={screen.feed.serviceSeeMore}
+          component={ServiceSeeMoreScreen}
+          options={{
+            title: "Ver más",
+            tabBarButton: () => null,
+            headerShown: true,
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={24}
+                color="black"
+                iconStyle={{ marginLeft: 10 }}
+                onPress={() => navigation.goBack()}
+              />
+            ),
           }}
         />
       </Tab.Navigator>
@@ -137,7 +162,7 @@ export function AppNavigation() {
           <TouchableOpacity
             style={[styles.fab, styles.shadow]}
             onPress={() => {
-              navigation.navigate(screen.jobs.tab)
+              navigation.navigate(screen.jobs.tab);
               setShowFAB(!showFAB);
             }}
           >
@@ -169,7 +194,6 @@ export function AppNavigation() {
   );
 }
 
-
 const styles = StyleSheet.create({
   fabContainer: {
     position: "absolute",
@@ -191,9 +215,9 @@ const styles = StyleSheet.create({
   label: {
     color: "#646464",
     fontSize: 10,
-    textAlign: "center"
+    textAlign: "center",
   },
   shadow: {
     elevation: 6,
-  }
+  },
 });

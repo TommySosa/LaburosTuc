@@ -1,72 +1,42 @@
-import React from "react";
-import { View, Text, Image, ScrollView } from "react-native";
-import { Card, Button } from "react-native-elements";
+import React, { useEffect, useState } from "react";
+import { FlatList, RefreshControl, View } from "react-native";
+import Post from "../../../components/Feed/Posts/Post";
+import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore"
+import { db } from "../../../utils";
 
-const Post = ({ title, description, schedule, salary, location, imageUri }) => (
-  <Card>
-    <Image source={{ uri: imageUri }} style={{ width: "100%", height: 200 }} />
+export default function ServiceScreen() {
+  const [posts, setPosts] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-    <View style={{ padding: 10 }}>
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>{title}</Text>
-      <Text>{description}</Text>
-      <Text>Schedule: {schedule}</Text>
-      <Text>Location: {location}</Text>
-    </View>
+  const loadPosts = async () => {
+    setIsRefreshing(true);
+    const q = query(
+      collection(db, "services"),
+      orderBy("createdAt", "desc")
+    );
+    const snapshot = await getDocs(q);
+    const newPosts = snapshot.docs.map((doc) => doc.data());
+    setPosts(newPosts);
+    setIsRefreshing(false);
+  };
 
-    <Button
-      title="Ver más"
-      type="outline"
-      onPress={() => console.log(`Me gusta el post: ${title}`)}
-      containerStyle={{ marginTop: 10 }}
-    />
-  </Card>
-);
-
-const JobScreen = () => {
-  const posts = [
-    {
-      title: "Trabajo 1",
-      description: "Descripción del trabajo 1...",
-      schedule: "8:00 AM - 5:00 PM",
-      location: "Ciudad A",
-      imageUri:
-        "https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/There-are-ways-to-make-your-job-application-stand-out-from-the-crowd-/960x0.jpg?format=jpg&width=960",
-    },
-    {
-      title: "Trabajo 2",
-      description: "Descripción del trabajo 2...",
-      schedule: "9:00 AM - 6:00 PM",
-      location: "Ciudad B",
-      imageUri:
-        "https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/There-are-ways-to-make-your-job-application-stand-out-from-the-crowd-/960x0.jpg?format=jpg&width=960",
-    },
-    {
-      title: "Trabajo 3",
-      description: "Descripción del trabajo 3...",
-      schedule: "10:00 AM - 7:00 PM",
-      location: "Ciudad C",
-      imageUri:
-        "https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/There-are-ways-to-make-your-job-application-stand-out-from-the-crowd-/960x0.jpg?format=jpg&width=960",
-    },
-    {
-      title: "Trabajo 4",
-      description: "Descripción del trabajo 4...",
-      schedule: "8:30 AM - 4:30 PM",
-      location: "Ciudad D",
-      imageUri:
-        "https://imageio.forbes.com/specials-images/imageserve/6241e0d6a9cfb1481d6edf2e/There-are-ways-to-make-your-job-application-stand-out-from-the-crowd-/960x0.jpg?format=jpg&width=960",
-    },
-  ];
+  useEffect(() => {
+    loadPosts();
+  }, []);
 
   return (
-    <ScrollView>
-      <View>
-        {posts.map((post, index) => (
-          <Post key={index} {...post} />
-        ))}
-      </View>
-    </ScrollView>
+    <View>
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => <Post post={item} screenName="ServiceScreen"/>}
+        keyExtractor={(item) => item.id}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={loadPosts}
+          />
+        }
+      />
+    </View>
   );
 };
-
-export default JobScreen;
