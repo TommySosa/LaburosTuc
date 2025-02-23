@@ -60,12 +60,16 @@ export default function Post({ post, screenName }) {
     distanceInKm = `${distance} km`;
   }
 
+  /*
   const seeMore = (nameScreen) => {
     console.log("nameScreen", nameScreen);
     const scren = nameScreen === 'JobScreen' ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
     console.log("scren", scren);
     navigation.navigate(scren, { id: id });
-  };
+ Cambio actual*/
+  const seeMore = () => {
+    navigation.navigate(screen.feed.jobSeeMore, { id: id });
+  }; //Cambio entrante
 
   const seeProfile = () => {
     if (userInfo.idUser) {
@@ -113,11 +117,12 @@ export default function Post({ post, screenName }) {
         <Text>
           {post.remuneration ? `Remuneración: $${post.remuneration}` : null}
         </Text>
-      </View>
+      </View >
       <Button
         title="Ver más"
         type="outline"
         onPress={() => seeMore(screenName)}
+        /*onPress={seeMore} Cambio entrante*/
         containerStyle={{ marginTop: 10 }}
       />
 
@@ -129,6 +134,6 @@ export default function Post({ post, screenName }) {
           />
         </View>
       </Modal>
-    </Card>
+    </Card >
   );
 }
