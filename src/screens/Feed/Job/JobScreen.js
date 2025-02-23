@@ -64,7 +64,7 @@ export default function JobScreen({ formik }) {
       </View>
       <FlatList
         data={posts}
-        renderItem={({ item }) => <Post post={item} />}
+        renderItem={({ item }) => <Post post={item} screenName="JobScreen"/>}
         keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={loadPosts} />

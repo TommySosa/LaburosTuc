@@ -28,7 +28,8 @@ const feedStack = {
   tab: "Feed",
   jobs: "JobsTab",
   services: "ServicesTab",
-  jobSeeMore: "JobSeeMore"
+  jobSeeMore: "JobSeeMore",
+  serviceSeeMore: "ServiceSeeMore"
 }
 
 const favoritesStack = {

@@ -11,7 +11,7 @@ import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 
-export default function Post({ post }) {
+export default function Post({ post, screenName }) {
   const {
     schedules,
     address,
@@ -60,9 +60,16 @@ export default function Post({ post }) {
     distanceInKm = `${distance} km`;
   }
 
+  /*
+  const seeMore = (nameScreen) => {
+    console.log("nameScreen", nameScreen);
+    const scren = nameScreen === 'JobScreen' ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
+    console.log("scren", scren);
+    navigation.navigate(scren, { id: id });
+ Cambio actual*/
   const seeMore = () => {
     navigation.navigate(screen.feed.jobSeeMore, { id: id });
-  };
+  }; //Cambio entrante
 
   const seeProfile = () => {
     if (userInfo.idUser) {
@@ -104,15 +111,18 @@ export default function Post({ post }) {
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>{category}</Text>
         <Text>{description}</Text>
         <Text>Horarios: {schedules}</Text>
-        <Text>Remuneración: ${remuneration}</Text>
         <Text>
           Ubicación: {address} (a {distanceInKm})
         </Text>
-      </View>
+        <Text>
+          {post.remuneration ? `Remuneración: $${post.remuneration}` : null}
+        </Text>
+      </View >
       <Button
         title="Ver más"
         type="outline"
-        onPress={seeMore}
+        onPress={() => seeMore(screenName)}
+        /*onPress={seeMore} Cambio entrante*/
         containerStyle={{ marginTop: 10 }}
       />
 
@@ -124,6 +134,6 @@ export default function Post({ post }) {
           />
         </View>
       </Modal>
-    </Card>
+    </Card >
   );
 }
