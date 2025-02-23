@@ -2,14 +2,14 @@ import { Dimensions, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "../../../utils"
-import { Info } from '../../../components/ServiceSeeMore/Info/Info';
+import { Info } from '../../../components/ServiceSeeMore/Info/Info'
 import { Header } from '../../../components/ServiceSeeMore/Header/Header';
 import { Carousel } from '../../../components/Shared/Carousel/Carousel';
 import { BtnFavoriteservice } from '../../../components/Shared/BtnFavorite/BtnFavoriteService';
 
 const { width } = Dimensions.get("window")
 
-export default function ServiceSeeMoreScreen({ route }) {
+export function ServiceSeeMoreScreen({ route }) {
     const { id } = route.params;
     const [service, setservice] = useState(null)
 

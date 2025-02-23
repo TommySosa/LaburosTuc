@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ServiceStack } from "./ServiceStack";
 import { FeedNavigation } from "./FeedNavigation";
 import { JobSeeMoreScreen } from "../screens/Feed/JobSeeMore/JobSeeMoreScreen";
-import  ServiceSeeMoreScreen  from "../screens/Feed/ServiceSeeMore/ServiceSeeMoreScreen";
+import { ServiceSeeMoreScreen } from "../screens/Feed/ServiceSeeMore/ServiceSeeMoreScreen";
 import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 
 const Tab = createBottomTabNavigator();
