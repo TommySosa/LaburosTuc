@@ -16,7 +16,7 @@ export function Info({ service }) {
             if (docSnap.exists()) {
                 setUserInfo(docSnap.data());
             } else {
-                console.log("No such document!");
+                console.log("User Info not found");
             }
         }
 
@@ -45,7 +45,8 @@ export function Info({ service }) {
 
     return (
         <View style={styles.content}>
-            <Text style={styles.title}>Información sobre el</Text>
+            {/* <Text style={styles.title}>Información sobre el</Text> */}
+            <Text style={styles.title}>Información</Text>
             {service && <Map location={service.location} name={service.category} />}
             {map(listInfo, (item, index) => (
                 <ListItem key={index} bottomDivider>

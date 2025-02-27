@@ -60,16 +60,24 @@ export default function Post({ post, screenName }) {
     distanceInKm = `${distance} km`;
   }
 
-  /*
+
   const seeMore = (nameScreen) => {
-    console.log("nameScreen", nameScreen);
-    const scren = nameScreen === 'JobScreen' ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
-    console.log("scren", scren);
+    console.log("nameScreen:", nameScreen);
+    const scren = nameScreen === "JobScreen" ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
+    console.log("scren:", scren); // Verifica si es undefined
+    console.log("id:", id);
+
+    if (!scren) {
+      console.error("Error: screen.feed.serviceSeeMore es undefined");
+      return;
+    }
+
     navigation.navigate(scren, { id: id });
- Cambio actual*/
-  const seeMore = () => {
-    navigation.navigate(screen.feed.jobSeeMore, { id: id });
-  }; //Cambio entrante
+  };
+
+  // const seeMore = () => {
+  //   navigation.navigate(screen.feed.jobSeeMore, { id: id });
+  // }; //Cambio entrante
 
   const seeProfile = () => {
     if (userInfo.idUser) {
@@ -102,11 +110,16 @@ export default function Post({ post, screenName }) {
         <BtnFavoriteJob id={id} />
       </View>
 
-      <Image
-        source={{ uri: post.images[0] }}
-        style={{ width: "100%", height: 200 }}
-        onPress={() => setShowModal(true)}
-      />
+      {
+        post.images[0] ? (
+          <Image
+            source={{ uri: post.images[0] }}
+            style={{ width: "100%", height: 200 }}
+            onPress={() => setShowModal(true)}
+          />
+        ) : null
+      }
+
       <View style={{ padding: 10 }}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>{category}</Text>
         <Text>{description}</Text>
