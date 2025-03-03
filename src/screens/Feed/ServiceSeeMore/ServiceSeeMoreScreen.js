@@ -5,7 +5,7 @@ import { db } from "../../../utils"
 import { Info } from '../../../components/ServiceSeeMore/Info/Info'
 import { Header } from '../../../components/ServiceSeeMore/Header/Header';
 import { Carousel } from '../../../components/Shared/Carousel/Carousel';
-import { BtnFavoriteservice } from '../../../components/Shared/BtnFavorite/BtnFavoriteService';
+import { BtnFavoriteService } from '../../../components/Shared/BtnFavorite/BtnFavoriteService';
 
 const { width } = Dimensions.get("window")
 
@@ -34,7 +34,7 @@ export function ServiceSeeMoreScreen({ route }) {
                     <Carousel images={service.images} height={250} width={width} />
                     <Header service={service} />
                     <Info service={service} isService={true} />
-                    <BtnFavoriteservice id={id} />
+                    <BtnFavoriteService id={id} />
                 </>
             )}
         </ScrollView>

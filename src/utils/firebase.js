@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAxrKC610Yn2mvRu5jqdHtpFmoxtfnP1T8",
@@ -18,4 +18,8 @@ export const auth = initializeAuth(initFirebase, {
     persistence: getReactNativePersistence(AsyncStorage)
 });
 
-export const db = getFirestore(initFirebase)
+export const db = initializeFirestore(initFirebase, {
+    experimentalForceLongPolling: true, // Soluciona problemas con WebSockets en React Native
+    useFetchStreams: false, // Opcional, reduce problemas con conexiones
+});
+// export const db = getFirestore(initFirebase)
