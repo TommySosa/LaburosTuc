@@ -9,7 +9,7 @@ import { Icon } from "@rneui/themed";
 const FilterKm = () => {
   const [km, setKm] = useState();
   return (
-    <View style={styles.conteiner}>
+    <View /*style={styles.conteiner}*/ >
       <Dropdown
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
@@ -19,7 +19,7 @@ const FilterKm = () => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        placeholder="150 kilómetros"
+        placeholder="150 km"
         value={km}
         selectedStyle={styles.selectedStyle}
       />

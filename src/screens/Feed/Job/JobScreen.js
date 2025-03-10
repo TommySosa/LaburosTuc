@@ -2,72 +2,117 @@ import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import Post from "../../../components/Feed/Posts/Post";
 import {
+  addDoc,
   collection,
-  getDocs,
   onSnapshot,
   orderBy,
   query,
-  where,
 } from "firebase/firestore";
 import { db } from "../../../utils";
-import { styles } from "./JobScreen.styles";
-
+import * as Location from "expo-location";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
-import FilterKm from "../../../components/Feed/Filter/FilterKm";
+import { getCategories } from "../../../data/getCategories";
+import { data } from "../../../utils/ArrayServices";
+import { calculateDistance } from "../../../utils/calculateDistance";
 
 export default function JobScreen({ formik }) {
+  const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(25); // Estado para la distancia
 
-  const loadPosts = async () => {
-    setIsRefreshing(true);
-    const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"));
-    const snapshot = await getDocs(q);
-    const newPosts = snapshot.docs.map((doc) => doc.data());
-    setPosts(newPosts);
-    setIsRefreshing(false);
-  };
-  const loadPostsFiltred = async () => {
-    setIsRefreshing(true);
-    let combinedPosts = [];
-    for (const selectedCategory of categories) {
-      const q = query(
-        collection(db, "jobs"),
-        where("category", "==", selectedCategory)
-      );
-      const snapshot = await getDocs(q);
-      const categoryPosts = snapshot.docs.map((doc) => doc.data());
-      combinedPosts = [...combinedPosts, ...categoryPosts];
-    }
-    setPosts(combinedPosts);
-    setIsRefreshing(false);
-  };
+
   useEffect(() => {
-    if (categories.length === 0) {
-      loadPosts();
-    } else {
-      loadPostsFiltred();
-    }
-  }, [categories]);
+    const getUserLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permiso de ubicación denegado");
+        return;
+      }
+      const location = await Location.getCurrentPositionAsync({});
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    };
+    getUserLocation();
+  }, []);
 
-  console.log("feed: ", categories);
+  useEffect(() => {
+    const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setIsRefreshing(true);
+      const fetchedPosts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAllPosts(fetchedPosts);
+      setPosts(fetchedPosts);
+      setIsRefreshing(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (filteredCategories.length === 0) {
+      setPosts(allPosts);
+    } else {
+      setPosts(
+        allPosts.filter((post) => filteredCategories.includes(post.category))
+      );
+    }
+  }, [filteredCategories, allPosts]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getCategories();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    let filteredPosts = allPosts;
+
+    if (filteredCategories.length > 0) {
+      filteredPosts = filteredPosts.filter((post) =>
+        filteredCategories.includes(post.category)
+      );
+    }
+
+    if (userLocation) {
+      filteredPosts = filteredPosts.filter((post) => {
+        if (!post.location) return false;
+        const distance = calculateDistance(userLocation, post.location);
+        return distance <= selectedDistance;
+      });
+    }
+
+    setPosts(filteredPosts);
+  }, [filteredCategories, allPosts, selectedDistance, userLocation]);
+
   return (
     <View>
-      <View style={styles.filter}>
-        <FilterFeed
-          placeholder={"Filtrar Empleos"}
-          categories={categories}
-          setCategories={setCategories}
-        />
-        <FilterKm />
-      </View>
+      <FilterFeed
+        placeholder={"Filtrar Empleos"}
+        categories={categories}
+        filteredCategories={filteredCategories}
+        setFilteredCategories={setFilteredCategories}
+        distance={selectedDistance}
+        setDistance={setSelectedDistance}
+      />
+
       <FlatList
         data={posts}
-        renderItem={({ item }) => <Post post={item} screenName="JobScreen"/>}
+        renderItem={({ item }) => <Post post={item} screenName="JobScreen" />}
         keyExtractor={(item) => item.id}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={loadPosts} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
         }
       />
     </View>
