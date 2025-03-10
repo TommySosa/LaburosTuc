@@ -1,47 +1,153 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  //Conteiner debe permanecer hasta solucionar conflicto con publicaciones
-  conteiner: {
-    // maxHeight: 150,
-    marginBottom: 5,
+  container: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
   },
-  dropdown: {
-    marginHorizontal: 10,
-    marginBottom: 2,
-    marginTop: 15,
-    height: 50,
-    width: 170,
-    borderColor: "#288DDD",
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
     borderWidth: 1,
-    borderRadius: 5,
+    borderColor: '#e0e0e0',
   },
-  placeholderStyle: {
-    fontSize: 15,
-    color: "#288DDD",
-    marginLeft: 20,
-  },
-  selectedStyle: {
-    borderRadius: 12,
-    backgroundColor: "white",
-    marginLeft: 15,
-  },
-  selectedTextStyle: {
-    fontSize: 14,
-    color: "#288DDD",
-  },
-  inputSearchStyle: {
-    height: 40,
+  searchText: {
+    flex: 1,
+    marginLeft: 8,
+    color: '#666',
     fontSize: 16,
   },
-  iconStyle: {
-    width: 20,
-    height: 20,
+  filterDropdown: {
+    marginTop: 12,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 8,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
   },
-  error: {
-    // marginBottom: 20,
-    marginLeft: 12,
-    color: "red",
-    fontSize: 12,
+  filterTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#333',
   },
+  filterOptions: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  filterOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    borderRadius: 15,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginHorizontal: 4,
+  },
+  filterOptionSelected: {
+    backgroundColor: '#0096c7',
+  },
+  filterOptionText: {
+    color: '#666',
+    // marginRight: 4,
+  },
+  filterOptionTextSelected: {
+    color: '#fff',
+  },
+  selectedFiltersContainer: {
+    marginTop: 12,
+  },
+  selectedFiltersContent: {
+    paddingRight: 16,
+  },
+  selectedFilter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e6f7fc',
+    borderRadius: 15,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    marginRight: 6,
+    borderWidth: 1,
+    borderColor: '#cceeff',
+  },
+  selectedFilterText: {
+    color: '#0096c7',
+    marginRight: 4,
+  },
+  distanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  distanceInput: {
+    width: 40,
+    textAlign: 'center',
+    color: '#0096c7',
+    fontWeight: 'bold',
+  },
+  distanceText: {
+    color: '#666',
+    marginLeft: 4,
+  },
+  loadMoreButton: {
+    marginTop: 10,
+    alignSelf: "center",
+    backgroundColor: "#0096c7",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 5,
+  },
+  loadMoreText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  listContainer: {
+    maxHeight: 100, // Altura máxima del scroll
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    paddingVertical: 8,
+  },
+  inputFilter: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 10,
+    fontSize: 16,
+    marginBottom: 10,
+    color: "#333",
+  },
+  sliderContainer: {
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  sliderLabel: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 5,
+  },
+  sliderLabels: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 5,
+    marginTop: -10,
+  },
+
+
 });
