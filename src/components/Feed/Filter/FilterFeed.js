@@ -39,7 +39,6 @@ export default function FilterFeed({
     if (searchTerm.trim() === "") {
       setVisibleCategories(categories.slice(0, itemsToShow));
     } else {
-
       setVisibleCategories(
         categories.filter((category) =>
           category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,10 +48,23 @@ export default function FilterFeed({
   }, [categories, searchTerm, itemsToShow]);
 
   const loadMoreCategories = () => {
-    if (searchTerm.trim() === "") {
+    console.log("Cargando más categorías...");
+
+    if (itemsToShow < categories.length) {
       setItemsToShow((prev) => prev + 20);
     }
   };
+
+
+  const handleScroll = (event) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event;
+    const isNearBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+
+    if (isNearBottom) {
+      loadMoreCategories();
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -85,7 +97,39 @@ export default function FilterFeed({
           />
 
           <View style={styles.listContainer}>
-            <FlatList
+            <ScrollView
+              contentContainerStyle={styles.filterOptions}
+              showsVerticalScrollIndicator={false}
+              onScroll={({ nativeEvent }) => handleScroll(nativeEvent)}
+              scrollEventThrottle={400} // Controla la frecuencia de detección de scroll
+            >
+              <View style={styles.filterOptions}>
+                {visibleCategories.map((item) => (
+                  <TouchableOpacity
+                    key={item}
+                    style={[
+                      styles.filterOption,
+                      filteredCategories.includes(item) && styles.filterOptionSelected,
+                    ]}
+                    onPress={() => toggleFilter(item)}
+                  >
+                    <Text
+                      style={[
+                        styles.filterOptionText,
+                        filteredCategories.includes(item) && styles.filterOptionTextSelected,
+                      ]}
+                    >
+                      {item}
+                    </Text>
+                    {filteredCategories.includes(item) && (
+                      <Icon name="check" size={16} color="#fff" type="material" />
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </ScrollView>
+
+            { /*<FlatList
               data={visibleCategories}
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
@@ -113,8 +157,10 @@ export default function FilterFeed({
               // showsVerticalScrollIndicator={false}
               onEndReached={loadMoreCategories}
               onEndReachedThreshold={0.2}
-
-            />
+            // horizontal={false}
+            // numColumns={2}
+            // key={Math.random().toString()}
+            /> */}
 
           </View>
           <DistanceSlider distance={distance} setDistance={setDistance} />
