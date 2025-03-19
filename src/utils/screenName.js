@@ -5,7 +5,7 @@ const accountStack = {
   register: "Register",
   settings: "Settings",
   completeUserInfo: "CompleteUserInfo",
-  seeProfile: "seeProfile"
+  seeProfile: "seeProfile",
 };
 
 const jobsStack = {
@@ -22,15 +22,15 @@ const serviceStack = {
   addService: "AddService",
   service: "Service",
   addReviewService: "AddReviewService",
-}
+};
 
 const feedStack = {
   tab: "Feed",
   jobs: "JobsTab",
   services: "ServicesTab",
   jobSeeMore: "JobSeeMore",
-  serviceSeeMore: "ServiceSeeMore"
-}
+  serviceSeeMore: "ServiceSeeMore",
+};
 
 const favoritesStack = {
   tab: "FavoritesTab",

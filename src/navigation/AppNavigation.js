@@ -11,6 +11,7 @@ import { FeedNavigation } from "./FeedNavigation";
 import { JobSeeMoreScreen } from "../screens/Feed/JobSeeMore/JobSeeMoreScreen";
 import { ServiceSeeMoreScreen } from "../screens/Feed/ServiceSeeMore/ServiceSeeMoreScreen";
 import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
+import { FavoriteStack } from "./FavoriteStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -102,7 +103,7 @@ export function AppNavigation() {
         />
         <Tab.Screen
           name={screen.favorites.tab}
-          component={AccountStack}
+          component={FavoriteStack}
           options={{ title: "Favoritos" }}
         />
         <Tab.Screen
