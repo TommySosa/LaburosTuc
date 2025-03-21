@@ -12,7 +12,6 @@ import { db } from "../../../utils";
 import * as Location from "expo-location";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import { getCategories } from "../../../data/getCategories";
-import { data } from "../../../utils/ArrayServices";
 import { calculateDistance } from "../../../utils/calculateDistance";
 
 export default function JobScreen({ formik }) {
@@ -22,7 +21,7 @@ export default function JobScreen({ formik }) {
   const [categories, setCategories] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [selectedDistance, setSelectedDistance] = useState(25); // Estado para la distancia
+  const [selectedDistance, setSelectedDistance] = useState(25);
 
 
   useEffect(() => {

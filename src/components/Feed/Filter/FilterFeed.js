@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, ScrollView, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, TextInput, TouchableOpacity, View } from "react-native";
 import { styles } from "../Filter/FilterFeed.styles";
 import { Icon, Text } from "react-native-elements";
 import DistanceSlider from "../../Shared/DistanceSlider/DistanceSlider";
@@ -31,10 +31,6 @@ export default function FilterFeed({
     setFilteredCategories(updatedFilters);
   };
 
-  const filteredList = categories.filter(category =>
-    category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   useEffect(() => {
     if (searchTerm.trim() === "") {
       setVisibleCategories(categories.slice(0, itemsToShow));
@@ -64,7 +60,6 @@ export default function FilterFeed({
       loadMoreCategories();
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -101,7 +96,7 @@ export default function FilterFeed({
               contentContainerStyle={styles.filterOptions}
               showsVerticalScrollIndicator={false}
               onScroll={({ nativeEvent }) => handleScroll(nativeEvent)}
-              scrollEventThrottle={400} // Controla la frecuencia de detección de scroll
+              scrollEventThrottle={400}
             >
               <View style={styles.filterOptions}>
                 {visibleCategories.map((item) => (
@@ -128,39 +123,6 @@ export default function FilterFeed({
                 ))}
               </View>
             </ScrollView>
-
-            { /*<FlatList
-              data={visibleCategories}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={[
-                    styles.filterOption,
-                    filteredCategories.includes(item) && styles.filterOptionSelected,
-                  ]}
-                  onPress={() => toggleFilter(item)}
-                >
-                  <Text
-                    style={[
-                      styles.filterOptionText,
-                      filteredCategories.includes(item) && styles.filterOptionTextSelected,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                  {filteredCategories.includes(item) && (
-                    <Icon name="check" size={16} color="#fff" type="material" />
-                  )}
-                </TouchableOpacity>
-              )}
-              contentContainerStyle={styles.filterOptions}
-              // showsVerticalScrollIndicator={false}
-              onEndReached={loadMoreCategories}
-              onEndReachedThreshold={0.2}
-            // horizontal={false}
-            // numColumns={2}
-            // key={Math.random().toString()}
-            /> */}
 
           </View>
           <DistanceSlider distance={distance} setDistance={setDistance} />
