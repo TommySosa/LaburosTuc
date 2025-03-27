@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, View } from "react-native";
 import Post from "../../../components/Feed/Posts/Post";
-import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore"
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "../../../utils";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import * as Location from "expo-location";
@@ -117,15 +123,14 @@ export default function ServiceScreen() {
 
       <FlatList
         data={posts}
-        renderItem={({ item }) => <Post post={item} screenName="ServiceScreen" />}
+        renderItem={({ item }) => (
+          <Post post={item} screenName="ServiceScreen" />
+        )}
         keyExtractor={(item) => item.id}
         refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={() => { }}
-          />
+          <RefreshControl refreshing={isRefreshing} onRefresh={() => {}} />
         }
       />
     </View>
   );
-};
+}

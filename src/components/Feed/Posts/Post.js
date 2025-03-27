@@ -10,6 +10,7 @@ import Avatar from "../../Shared/Avatar/Avatar";
 import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
+import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
 
 export default function Post({ post, screenName }) {
   const {
@@ -23,6 +24,7 @@ export default function Post({ post, screenName }) {
     description,
     images,
     idUser,
+    services,
   } = post;
   const [userLocation, setUserLocation] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -60,10 +62,12 @@ export default function Post({ post, screenName }) {
     distanceInKm = `${distance} km`;
   }
 
-
   const seeMore = (nameScreen) => {
     console.log("nameScreen:", nameScreen);
-    const scren = nameScreen === "JobScreen" ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
+    const scren =
+      nameScreen === "JobScreen"
+        ? screen.feed.jobSeeMore
+        : screen.feed.serviceSeeMore;
     console.log("scren:", scren); // Verifica si es undefined
     console.log("id:", id);
 
@@ -110,18 +114,18 @@ export default function Post({ post, screenName }) {
         <BtnFavoriteJob id={id} />
       </View>
 
-      {
-        post.images[0] ? (
-          <Image
-            source={{ uri: post.images[0] }}
-            style={{ width: "100%", height: 200 }}
-            onPress={() => setShowModal(true)}
-          />
-        ) : null
-      }
+      {post.images[0] ? (
+        <Image
+          source={{ uri: post.images[0] }}
+          style={{ width: "100%", height: 200 }}
+          onPress={() => setShowModal(true)}
+        />
+      ) : null}
 
       <View style={{ padding: 10 }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>{category}</Text>
+        {/* Muestra los servicios  */}
+        {services && <ServiceList services={services} />}
+        {/* <Text style={{ fontSize: 20, fontWeight: "bold" }}>{description}</Text> */}
         <Text>{description}</Text>
         <Text>Horarios: {schedules}</Text>
         <Text>
@@ -130,7 +134,7 @@ export default function Post({ post, screenName }) {
         <Text>
           {post.remuneration ? `Remuneración: $${post.remuneration}` : null}
         </Text>
-      </View >
+      </View>
       <Button
         title="Ver más"
         type="outline"
@@ -147,6 +151,6 @@ export default function Post({ post, screenName }) {
           />
         </View>
       </Modal>
-    </Card >
+    </Card>
   );
 }
