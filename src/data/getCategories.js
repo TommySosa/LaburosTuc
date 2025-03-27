@@ -9,13 +9,13 @@ export const getCategories = async () => {
 
         if (!snapshot.empty) {
             categories = snapshot.docs.map((doc) => doc.data().label);
-            console.log("Categorías cargadas desde caché: ", categories);
+            console.log("Categorías cargadas desde caché. ");
             return categories;
         } else {
             return new Promise((resolve) => {
                 const unsubscribe = onSnapshot(categoriesQuery, (snapshot) => {
                     const updatedCategories = snapshot.docs.map((doc) => doc.data().label);
-                    console.log("Categorías actualizadas en tiempo real desde Firestore: ", updatedCategories);
+                    console.log("Categorías actualizadas en tiempo real desde Firestore. ");
                     resolve(updatedCategories);
                 });
                 return () => unsubscribe();

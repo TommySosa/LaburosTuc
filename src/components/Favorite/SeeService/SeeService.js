@@ -71,7 +71,7 @@ export default function SeeService({ idsFav }) {
   }, [posts, users]);
 
   return (
-    <View style={{ marginTop: 50 }}>
+    <View style={{ marginTop: 20, alignItems: "center" }}>
       <Text
         style={{
           fontSize: 26,
@@ -87,14 +87,14 @@ export default function SeeService({ idsFav }) {
       ) : (
         <Text
           style={{
-            fontSize: 26,
+            fontSize: 24,
             fontWeight: "bold",
             color: "#999",
             marginLeft: 10,
             marginTop: 20,
           }}
         >
-          No titenes servicios favoritos.
+          No tienes servicios favoritos.
         </Text>
       )}
     </View>

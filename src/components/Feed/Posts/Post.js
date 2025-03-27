@@ -7,7 +7,7 @@ import { calculateDistance } from "../../../utils/calculateDistance";
 import * as Location from "expo-location";
 import { formatDate } from "../../../utils/formatDate";
 import Avatar from "../../Shared/Avatar/Avatar";
-import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
+// import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 
@@ -64,7 +64,7 @@ export default function Post({ post, screenName }) {
   const seeMore = (nameScreen) => {
     console.log("nameScreen:", nameScreen);
     const scren = nameScreen === "JobScreen" ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
-    console.log("scren:", scren); // Verifica si es undefined
+    console.log("screen:", scren); // Verifica si es undefined
     console.log("id:", id);
 
     if (!scren) {
@@ -81,7 +81,6 @@ export default function Post({ post, screenName }) {
 
   const seeProfile = () => {
     if (userInfo.idUser) {
-      console.log("ID USER =", userInfo.idUser);
       navigation.navigate(screen.account.seeProfile, {
         idUser: userInfo.idUser,
       });
@@ -107,7 +106,7 @@ export default function Post({ post, screenName }) {
           <Text>{userInfo ? userInfo.email : ""}</Text>
           <Text>{formattedDate}</Text>
         </View>
-        <BtnFavoriteJob id={id} />
+        {/* <BtnFavoriteJob id={id} /> */}
       </View>
 
       {

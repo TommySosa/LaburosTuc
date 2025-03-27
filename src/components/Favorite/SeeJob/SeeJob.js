@@ -10,7 +10,10 @@ export default function SeeJob({ idsFav }) {
   const [mergedData, setMergedData] = useState([]);
 
   useEffect(() => {
-    if (!idsFav || idsFav.length === 0) return;
+    if (!idsFav || idsFav.length === 0) {
+      setPosts([]);
+      return;
+    }
 
     const favoriteIds = idsFav.map((fav) => fav.id);
     const q = query(collection(db, "jobs"), where("id", "in", favoriteIds));
@@ -28,7 +31,10 @@ export default function SeeJob({ idsFav }) {
   }, [idsFav]);
 
   useEffect(() => {
-    if (posts.length === 0) return;
+    if (posts.length === 0) {
+      setUsers([]);
+      return
+    }
 
     const idUser = [...new Set(posts.map((post) => post.idUser))]; // Eliminamos duplicados
 
@@ -59,8 +65,10 @@ export default function SeeJob({ idsFav }) {
   }, [posts]);
 
   useEffect(() => {
-    if (posts.length === 0 || users.length === 0) return;
-
+    if (posts.length === 0 || users.length === 0) {
+      setMergedData([]);
+      return
+    }
     // Relacionamos publicaciones con usuarios
     const combinedData = posts.map((post) => ({
       ...post,
@@ -71,7 +79,7 @@ export default function SeeJob({ idsFav }) {
   }, [posts, users]);
 
   return (
-    <View style={{ marginTop: 50 }}>
+    <View style={{ marginTop: 20, alignItems: "center" }}>
       <Text
         style={{
           fontSize: 26,
@@ -87,14 +95,14 @@ export default function SeeJob({ idsFav }) {
       ) : (
         <Text
           style={{
-            fontSize: 26,
+            fontSize: 24,
             fontWeight: "bold",
             color: "#999",
             marginLeft: 10,
             marginTop: 20,
           }}
         >
-          No titenes trabajos favoritos.
+          No tienes trabajos favoritos.
         </Text>
       )}
     </View>

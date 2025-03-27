@@ -1,10 +1,8 @@
 import React from "react";
-import { Text, View } from "react-native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { UserGuestScreen } from "../Account/UserGuestScreen/UserGuestScreen";
 import { LoadingModal } from "../../components";
 import { useState, useEffect } from "react";
-import JobScreen from "../Feed/Job/JobScreen";
 import SeeFavorite from "./FavoritePost/SeeFavorite";
 
 export function FavoriteScreen() {
