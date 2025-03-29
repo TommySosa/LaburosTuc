@@ -7,7 +7,7 @@ import { calculateDistance } from "../../../utils/calculateDistance";
 import * as Location from "expo-location";
 import { formatDate } from "../../../utils/formatDate";
 import Avatar from "../../Shared/Avatar/Avatar";
-import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
+// import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
@@ -38,7 +38,7 @@ export default function Post({ post, screenName }) {
   const formattedDate = formatDate(createdAt);
 
   useEffect(() => {
-    onSnapshot(doc(db, "usersInfo", post.idUser), (doc) => {
+    onSnapshot(doc(db, "usersInfo", idUser), (doc) => {
       setUserInfo(doc.data());
     });
   }, []);
@@ -85,7 +85,6 @@ export default function Post({ post, screenName }) {
 
   const seeProfile = () => {
     if (userInfo.idUser) {
-      console.log("ID USER =", userInfo.idUser);
       navigation.navigate(screen.account.seeProfile, {
         idUser: userInfo.idUser,
       });
@@ -95,7 +94,7 @@ export default function Post({ post, screenName }) {
   };
 
   return (
-    <Card>
+    <Card >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View style={{ marginRight: 10 }}>
           {userInfo && (
@@ -111,36 +110,33 @@ export default function Post({ post, screenName }) {
           <Text>{userInfo ? userInfo.email : ""}</Text>
           <Text>{formattedDate}</Text>
         </View>
-        <BtnFavoriteJob id={id} />
+        {/* <BtnFavoriteJob id={id} /> */}
       </View>
 
-      {post.images[0] ? (
+      {images[0] ? (
         <Image
-          source={{ uri: post.images[0] }}
+          source={{ uri: images[0] }}
           style={{ width: "100%", height: 200 }}
           onPress={() => setShowModal(true)}
         />
       ) : null}
 
       <View style={{ padding: 10 }}>
-        {/* Muestra los servicios  */}
-        {services && <ServiceList services={services} />}
+        {/* En caso que haya servicios los renderiza, sino muestra la categoria de empleo  */}
+        {services ? <ServiceList services={services} /> : <Text style={{ fontSize: 15, fontWeight: "bold" }}>{category}</Text>}
         {/* <Text style={{ fontSize: 20, fontWeight: "bold" }}>{description}</Text> */}
         <Text>{description}</Text>
         <Text>Horarios: {schedules}</Text>
         <Text>
           Ubicación: {address} (a {distanceInKm})
         </Text>
-        <Text>
-          {post.remuneration ? `Remuneración: $${post.remuneration}` : null}
-        </Text>
+        {remuneration ? <Text>Remuneración: ${remuneration}</Text> : null}
       </View>
       <Button
         title="Ver más"
         type="outline"
         onPress={() => seeMore(screenName)}
-        /*onPress={seeMore} Cambio entrante*/
-        containerStyle={{ marginTop: 10 }}
+        containerStyle={{ marginBottom: 15 }}
       />
 
       <Modal show={showModal} close={onCloseOpenModal}>

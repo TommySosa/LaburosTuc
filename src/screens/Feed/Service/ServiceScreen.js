@@ -128,7 +128,7 @@ export default function ServiceScreen() {
         )}
         keyExtractor={(item) => item.id}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={() => {}} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
         }
       />
     </View>

@@ -4,13 +4,13 @@ export const styles = StyleSheet.create({
   content: {
     flexDirection: "column",
     alignItems: "flex-start",
-    paddingBottom: 0,
   },
   textContainer: {
-    flexShrink: 1,
+    flex: 1,
+    maxWidth: "90%",
   },
   service: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#333",
     lineHeight: 22,
@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
   toggleText: {
     fontSize: 14,
     color: "#007bff",
-    // color: "#555",
-    marginVertical: 3,
+    marginTop: 3,
   },
 });
