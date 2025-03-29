@@ -10,6 +10,7 @@ import Avatar from "../../Shared/Avatar/Avatar";
 // import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
+import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
 
 export default function Post({ post, screenName }) {
   const {
@@ -23,6 +24,7 @@ export default function Post({ post, screenName }) {
     description,
     images,
     idUser,
+    services,
   } = post;
   const [userLocation, setUserLocation] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
@@ -36,7 +38,7 @@ export default function Post({ post, screenName }) {
   const formattedDate = formatDate(createdAt);
 
   useEffect(() => {
-    onSnapshot(doc(db, "usersInfo", post.idUser), (doc) => {
+    onSnapshot(doc(db, "usersInfo", idUser), (doc) => {
       setUserInfo(doc.data());
     });
   }, []);
@@ -60,11 +62,13 @@ export default function Post({ post, screenName }) {
     distanceInKm = `${distance} km`;
   }
 
-
   const seeMore = (nameScreen) => {
     console.log("nameScreen:", nameScreen);
-    const scren = nameScreen === "JobScreen" ? screen.feed.jobSeeMore : screen.feed.serviceSeeMore;
-    console.log("screen:", scren); // Verifica si es undefined
+    const scren =
+      nameScreen === "JobScreen"
+        ? screen.feed.jobSeeMore
+        : screen.feed.serviceSeeMore;
+    console.log("scren:", scren); // Verifica si es undefined
     console.log("id:", id);
 
     if (!scren) {
@@ -90,7 +94,7 @@ export default function Post({ post, screenName }) {
   };
 
   return (
-    <Card>
+    <Card >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View style={{ marginRight: 10 }}>
           {userInfo && (
@@ -109,33 +113,30 @@ export default function Post({ post, screenName }) {
         {/* <BtnFavoriteJob id={id} /> */}
       </View>
 
-      {
-        post.images[0] ? (
-          <Image
-            source={{ uri: post.images[0] }}
-            style={{ width: "100%", height: 200 }}
-            onPress={() => setShowModal(true)}
-          />
-        ) : null
-      }
+      {images[0] ? (
+        <Image
+          source={{ uri: images[0] }}
+          style={{ width: "100%", height: 200 }}
+          onPress={() => setShowModal(true)}
+        />
+      ) : null}
 
       <View style={{ padding: 10 }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>{category}</Text>
+        {/* En caso que haya servicios los renderiza, sino muestra la categoria de empleo  */}
+        {services ? <ServiceList services={services} /> : <Text style={{ fontSize: 15, fontWeight: "bold" }}>{category}</Text>}
+        {/* <Text style={{ fontSize: 20, fontWeight: "bold" }}>{description}</Text> */}
         <Text>{description}</Text>
         <Text>Horarios: {schedules}</Text>
         <Text>
           Ubicación: {address} (a {distanceInKm})
         </Text>
-        <Text>
-          {post.remuneration ? `Remuneración: $${post.remuneration}` : null}
-        </Text>
-      </View >
+        {remuneration ? <Text>Remuneración: ${remuneration}</Text> : null}
+      </View>
       <Button
         title="Ver más"
         type="outline"
         onPress={() => seeMore(screenName)}
-        /*onPress={seeMore} Cambio entrante*/
-        containerStyle={{ marginTop: 10 }}
+        containerStyle={{ marginBottom: 15 }}
       />
 
       <Modal show={showModal} close={onCloseOpenModal}>
@@ -146,6 +147,6 @@ export default function Post({ post, screenName }) {
           />
         </View>
       </Modal>
-    </Card >
+    </Card>
   );
 }
