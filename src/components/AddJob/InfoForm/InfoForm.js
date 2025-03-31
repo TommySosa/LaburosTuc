@@ -38,10 +38,8 @@ export function InfoForm({ formik }) {
                     searchPlaceholder="Buscar..."
                     value={category}
                     onChange={item => {
-                        console.log(item);
                         setCategory(item.value);
                         formik.setFieldValue("category", item.label);
-                        console.log(category);
                     }}
                     selectedStyle={styles.selectedStyle}
                 />
@@ -51,6 +49,16 @@ export function InfoForm({ formik }) {
                     onChangeText={(text) => formik.setFieldValue("schedules", text)}
                     errorMessage={formik.errors.schedules}
                     style={{ marginTop: 30 }}
+                    placeholderTextColor="#bdbdbd"
+                />
+                <Input placeholder='Teléfono de contacto'
+                    onChangeText={(text) => formik.setFieldValue("phone", text)}
+                    errorMessage={formik.errors.phone}
+                    placeholderTextColor="#bdbdbd"
+                />
+                <Input placeholder='Email de contacto'
+                    onChangeText={(text) => formik.setFieldValue("email", text)}
+                    errorMessage={formik.errors.email}
                     placeholderTextColor="#bdbdbd"
                 />
                 <Input placeholder='Remuneración'

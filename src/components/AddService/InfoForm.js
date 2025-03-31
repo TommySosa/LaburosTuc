@@ -53,6 +53,16 @@ export function InfoForm({ formik }) {
                     placeholderTextColor="#bdbdbd"
                     style={{ marginTop: 30 }}
                 />
+                <Input placeholder='Teléfono de contacto'
+                    onChangeText={(text) => formik.setFieldValue("phone", text)}
+                    errorMessage={formik.errors.phone}
+                    placeholderTextColor="#bdbdbd"
+                />
+                <Input placeholder='Email de contacto'
+                    onChangeText={(text) => formik.setFieldValue("email", text)}
+                    errorMessage={formik.errors.email}
+                    placeholderTextColor="#bdbdbd"
+                />
                 <Input placeholder='Tu ubicación'
                     rightIcon={{
                         type: "material-community",
