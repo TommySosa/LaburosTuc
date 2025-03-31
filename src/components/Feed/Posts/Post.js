@@ -11,6 +11,7 @@ import Avatar from "../../Shared/Avatar/Avatar";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
+import Toast from "react-native-toast-message";
 
 export default function Post({ post, screenName }) {
   const {
@@ -47,7 +48,13 @@ export default function Post({ post, screenName }) {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.error("Permiso de ubicación no otorgado");
+        Toast.show({
+          type: "error",
+          position: "bottom",
+          text1: "Permiso de ubicación no otorgado"
+        })
+        console.error("Permiso de ubicación no otorgado. Post.js");
+
         return;
       }
 
@@ -63,13 +70,10 @@ export default function Post({ post, screenName }) {
   }
 
   const seeMore = (nameScreen) => {
-    console.log("nameScreen:", nameScreen);
     const scren =
       nameScreen === "JobScreen"
         ? screen.feed.jobSeeMore
         : screen.feed.serviceSeeMore;
-    console.log("scren:", scren); // Verifica si es undefined
-    console.log("id:", id);
 
     if (!scren) {
       console.error("Error: screen.feed.serviceSeeMore es undefined");
@@ -89,12 +93,17 @@ export default function Post({ post, screenName }) {
         idUser: userInfo.idUser,
       });
     } else {
-      console.error("No se pudo obtener el ID del usuario.");
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "No se pudo obtener el ID del usuario."
+      })
+      console.error("No se pudo obtener el ID del usuario. Post.js");
     }
   };
 
   return (
-    <Card >
+    <Card containerStyle={{ paddingBottom: 15 }}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <View style={{ marginRight: 10 }}>
           {userInfo && (
@@ -132,12 +141,13 @@ export default function Post({ post, screenName }) {
         </Text>
         {remuneration ? <Text>Remuneración: ${remuneration}</Text> : null}
       </View>
-      <Button
-        title="Ver más"
-        type="outline"
-        onPress={() => seeMore(screenName)}
-        containerStyle={{ marginBottom: 15 }}
-      />
+      <View style={{ paddingBottom: 10 }}>
+        <Button
+          title="Ver más"
+          type="outline"
+          onPress={() => seeMore(screenName)}
+        />
+      </View>
 
       <Modal show={showModal} close={onCloseOpenModal}>
         <View style={{ width: "100%", height: 500 }}>
