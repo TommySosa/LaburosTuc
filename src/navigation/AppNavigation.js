@@ -12,6 +12,8 @@ import { JobSeeMoreScreen } from "../screens/Feed/JobSeeMore/JobSeeMoreScreen";
 import { ServiceSeeMoreScreen } from "../screens/Feed/ServiceSeeMore/ServiceSeeMoreScreen";
 import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 import { FavoriteStack } from "./FavoriteStack";
+import EditJobScreen from "../screens/Job/EditJobScreen/EditJobScreen";
+import EditServiceScreen from "../screens/Service/EditServiceScreen/EditServiceScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -143,6 +145,42 @@ export function AppNavigation() {
           component={ServiceSeeMoreScreen}
           options={{
             title: "Ver más",
+            tabBarButton: () => null,
+            headerShown: true,
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={24}
+                color="black"
+                iconStyle={{ marginLeft: 10 }}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name={screen.jobs.editJob}
+          component={EditJobScreen}
+          options={{
+            title: "Editar empleo",
+            tabBarButton: () => null,
+            headerShown: true,
+            headerLeft: () => (
+              <Icon
+                name="arrow-back"
+                size={24}
+                color="black"
+                iconStyle={{ marginLeft: 10 }}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name={screen.services.editService}
+          component={EditServiceScreen}
+          options={{
+            title: "Editar servicio",
             tabBarButton: () => null,
             headerShown: true,
             headerLeft: () => (

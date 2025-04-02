@@ -13,6 +13,7 @@ import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import * as Location from "expo-location";
 import { calculateDistance } from "../../../utils/calculateDistance";
 import { getCategories } from "../../../data/getCategories";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function ServiceScreen() {
   const [posts, setPosts] = useState([]);
@@ -22,6 +23,17 @@ export default function ServiceScreen() {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [selectedDistance, setSelectedDistance] = useState(25);
+  const [auth, setAuth] = useState(null);
+
+  useEffect(() => {
+    const authFirebase = getAuth()
+
+    onAuthStateChanged(authFirebase, (user) => {
+      // setHasLogged(user ? true : false)
+      // setUserId(user ? user.uid : null)
+      setAuth(user)
+    })
+  }, [])
 
   useEffect(() => {
     const getUserLocation = async () => {
@@ -124,7 +136,7 @@ export default function ServiceScreen() {
       <FlatList
         data={posts}
         renderItem={({ item }) => (
-          <Post post={item} screenName="ServiceScreen" />
+          <Post post={item} screenName="ServiceScreen" auth={auth} />
         )}
         keyExtractor={(item) => item.id}
         refreshControl={

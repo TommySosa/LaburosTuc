@@ -64,7 +64,7 @@ export default function AddServiceScreen(props) {
         hasLogged ? <ScrollView>
           <PrincipalImage formik={formik} />
           <InfoForm formik={formik} />
-          <UploadImageForm formik={formik} />
+          <UploadImageForm formik={formik} isService={true} />
           <View style={styles.buttonsContainer}>
             <Button
               title="Publicar"

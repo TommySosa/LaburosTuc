@@ -13,6 +13,7 @@ import * as Location from "expo-location";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import { getCategories } from "../../../data/getCategories";
 import { calculateDistance } from "../../../utils/calculateDistance";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function JobScreen({ formik }) {
   const [allPosts, setAllPosts] = useState([]);
@@ -22,7 +23,17 @@ export default function JobScreen({ formik }) {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [selectedDistance, setSelectedDistance] = useState(25);
+  const [auth, setAuth] = useState(null);
 
+  useEffect(() => {
+    const authFirebase = getAuth()
+
+    onAuthStateChanged(authFirebase, (user) => {
+      // setHasLogged(user ? true : false)
+      // setUserId(user ? user.uid : null)
+      setAuth(user)
+    })
+  }, [])
 
   useEffect(() => {
     const getUserLocation = async () => {
@@ -108,7 +119,7 @@ export default function JobScreen({ formik }) {
 
       <FlatList
         data={posts}
-        renderItem={({ item }) => <Post post={item} screenName="JobScreen" />}
+        renderItem={({ item }) => <Post post={item} screenName="JobScreen" auth={auth} />}
         keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
