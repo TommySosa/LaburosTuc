@@ -12,6 +12,7 @@ const jobsStack = {
   tab: "JobsTab",
   jobs: "Jobs",
   addJob: "AddJob",
+  editJob: "EditJob",
   job: "Job",
   addReviewJob: "AddReviewJob",
 };
@@ -20,6 +21,7 @@ const serviceStack = {
   tab: "ServicesTab",
   services: "Services",
   addService: "AddService",
+  editService: "EditService",
   service: "Service",
   addReviewService: "AddReviewService",
 };

@@ -95,7 +95,7 @@ const FavoriteSlider = ({ favoritePosts, screenName }) => {
                 )}
                 <View style={{ marginLeft: 10 }}>
                   <Text style={{ fontSize: 16, fontWeight: "bold", color: "#fff" }}>
-                    {item.user.email ? item.user.email : "user"}
+                    {item.user.email ? item.user.email : null}
                   </Text>
                   <Text style={{ color: "#fff" }}>
                     {item.createdAt ? formatDate(item.createdAt) : "date"}

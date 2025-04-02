@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Image } from "react-native-elements";
-import { doc, onSnapshot } from "firebase/firestore";
+import { Button, Card, Icon, Image } from "react-native-elements";
+import { collection, deleteDoc, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { db, screen } from "../../../utils";
 import { calculateDistance } from "../../../utils/calculateDistance";
 import * as Location from "expo-location";
@@ -12,8 +12,10 @@ import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
 import Toast from "react-native-toast-message";
+import { deleteObject, getStorage, ref } from "firebase/storage";
+import { getStoragePathFromUrl } from "../../../utils/getStoragePathFromUrl";
 
-export default function Post({ post, screenName }) {
+export default function Post({ post, screenName, auth }) {
   const {
     schedules,
     address,
@@ -32,6 +34,8 @@ export default function Post({ post, screenName }) {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
   const onCloseOpenModal = () => setShowModal((prev) => !prev);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const onCloseDeleteModal = () => setShowDeleteModal((prev) => !prev);
 
   if (!createdAt) {
     return null;
@@ -69,23 +73,42 @@ export default function Post({ post, screenName }) {
     distanceInKm = `${distance} km`;
   }
 
-  const seeMore = (nameScreen) => {
+  const seeMore = () => {
     const scren =
-      nameScreen === "JobScreen"
+      screenName === "JobScreen"
         ? screen.feed.jobSeeMore
         : screen.feed.serviceSeeMore;
 
     if (!scren) {
-      console.error("Error: screen.feed.serviceSeeMore es undefined");
+      console.error("Error al navegar a la pantalla de más información. Post.js");
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al navegar a la pantalla de más información"
+      })
       return;
     }
 
     navigation.navigate(scren, { id: id });
   };
 
-  // const seeMore = () => {
-  //   navigation.navigate(screen.feed.jobSeeMore, { id: id });
-  // }; //Cambio entrante
+  const editPost = () => {
+    const scren =
+      screenName === "JobScreen"
+        ? screen.jobs.editJob
+        : screen.services.editService;
+
+    if (!scren) {
+      console.error("Error al navegar a la pantalla de más información. Post.js");
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al navegar a la pantalla de más información"
+      })
+      return;
+    }
+    navigation.navigate(scren, { id: id });
+  }
 
   const seeProfile = () => {
     if (userInfo.idUser) {
@@ -102,6 +125,70 @@ export default function Post({ post, screenName }) {
     }
   };
 
+  const deletePost = async () => {
+    if (!auth || !userInfo || userInfo.idUser !== auth.uid) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "No tienes permisos para eliminar este post.",
+      });
+      return;
+    }
+
+    try {
+      const storage = getStorage();
+
+      // Eliminar imágenes del Storage si existen
+      if (images && images.length > 0) {
+        await Promise.all(
+          images.map(async (imageUrl) => {
+            const storagePath = getStoragePathFromUrl(imageUrl);
+            if (storagePath) {
+              try {
+                const imageRef = ref(storage, storagePath);
+                await deleteObject(imageRef);
+              } catch (error) {
+                console.error("Error eliminando imagen:", error);
+              }
+            }
+          })
+        );
+      }
+
+      const collectionName = screenName === "JobScreen" ? "jobs" : "services";
+      await deleteDoc(doc(db, collectionName, id));
+
+      const favoritesCollection =
+        screenName === "JobScreen" ? "favoritesJobs" : "favoritesServices";
+
+      // Buscar en favoritos los registros con el mismo ID de publicación
+      const q = query(collection(db, favoritesCollection), where("id", "==", id));
+      const querySnapshot = await getDocs(q);
+
+      // Eliminar cada documento encontrado en la colección de favoritos
+      const deleteFavoritesPromises = querySnapshot.docs.map((docFav) =>
+        deleteDoc(doc(db, favoritesCollection, docFav.id))
+      );
+      await Promise.all(deleteFavoritesPromises);
+
+
+      Toast.show({
+        type: "success",
+        position: "bottom",
+        text1: "Publicación eliminada con éxito",
+      });
+
+    } catch (error) {
+      console.error("Error eliminando post:", error);
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al eliminar la publicación.",
+      });
+    }
+  };
+
+
   return (
     <Card containerStyle={{ paddingBottom: 15 }}>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -115,11 +202,28 @@ export default function Post({ post, screenName }) {
             />
           )}
         </View>
-        <View>
+        <View style={{ flex: 1 }}>
           <Text>{userInfo ? userInfo.email : ""}</Text>
           <Text>{formattedDate}</Text>
         </View>
-        {/* <BtnFavoriteJob id={id} /> */}
+        {auth && userInfo && userInfo.idUser === auth.uid ? (
+          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+            <Icon
+              type="material-community"
+              name="pencil-outline"
+              color="#646464"
+              onPress={editPost}
+              containerStyle={{ marginHorizontal: 10 }}
+            />
+            <Icon
+              type="material-community"
+              name="delete-outline"
+              color="red"
+              onPress={onCloseDeleteModal}
+              containerStyle={{ marginHorizontal: 10 }}
+            />
+          </View>
+        ) : null}
       </View>
 
       {images[0] ? (
@@ -145,7 +249,7 @@ export default function Post({ post, screenName }) {
         <Button
           title="Ver más"
           type="outline"
-          onPress={() => seeMore(screenName)}
+          onPress={() => seeMore()}
         />
       </View>
 
@@ -157,6 +261,26 @@ export default function Post({ post, screenName }) {
           />
         </View>
       </Modal>
+
+      <Modal show={showDeleteModal} close={onCloseDeleteModal}>
+        <View style={{ padding: 20, alignItems: "center" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>
+            ¿Estás seguro de eliminar esta publicación?
+          </Text>
+          <View style={{ flexDirection: "row", justifyContent: "space-around", width: "100%" }}>
+            <Button title="Cancelar" type="outline" onPress={onCloseDeleteModal} />
+            <Button
+              title="Eliminar"
+              buttonStyle={{ backgroundColor: "red" }}
+              onPress={async () => {
+                await deletePost();
+                onCloseDeleteModal();
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
+
     </Card>
   );
 }

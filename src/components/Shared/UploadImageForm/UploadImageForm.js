@@ -8,7 +8,7 @@ import { LoadingModal } from "../../Shared/LoadingModal/LoadingModal"
 import { filter, map } from 'lodash'
 import { generateRandomNumber } from '../../../utils/generateRandomNumber'
 
-export function UploadImageForm({ formik }) {
+export function UploadImageForm({ formik, isService }) {
     const [isLoading, setIsLoading] = useState(false)
 
     const openGallery = async () => {
@@ -29,7 +29,7 @@ export function UploadImageForm({ formik }) {
         const blob = await response.blob()
 
         const storage = getStorage()
-        const storageRef = ref(storage, `jobs/${generateRandomNumber()}`)
+        const storageRef = ref(storage, `${isService ? `services/` : `jobs/`}${generateRandomNumber()}`)
 
         uploadBytes(storageRef, blob).then((snapshot) => {
             updatePhotosRestaurant(snapshot.metadata.fullPath)

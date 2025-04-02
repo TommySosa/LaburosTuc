@@ -22,6 +22,7 @@ export function InfoForm({ formik }) {
                     multiline={true}
                     errorMessage={formik.errors.description}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.description}
                 />
                 <MultiSelect
                     style={styles.dropdown}
@@ -36,7 +37,8 @@ export function InfoForm({ formik }) {
                     valueField="value"
                     placeholder="Selecciona el rubro"
                     searchPlaceholder="Buscar..."
-                    value={categories}
+                    // value={categories}
+                    value={formik.values.services}
                     onChange={items => {
                         console.log(items);
                         setCategories(items);
@@ -52,16 +54,19 @@ export function InfoForm({ formik }) {
                     errorMessage={formik.errors.schedules}
                     placeholderTextColor="#bdbdbd"
                     style={{ marginTop: 30 }}
+                    value={formik.values.schedules}
                 />
                 <Input placeholder='Teléfono de contacto'
                     onChangeText={(text) => formik.setFieldValue("phone", text)}
                     errorMessage={formik.errors.phone}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.phone}
                 />
                 <Input placeholder='Email de contacto'
                     onChangeText={(text) => formik.setFieldValue("email", text)}
                     errorMessage={formik.errors.email}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.email}
                 />
                 <Input placeholder='Tu ubicación'
                     rightIcon={{
@@ -70,11 +75,12 @@ export function InfoForm({ formik }) {
                         color: getColorIconMap(formik),
                         onPress: onOpenCloseMap
                     }}
-                    value={address}
+                    // value={address}
                     disabled
                     multiline
                     errorMessage={formik.errors.address}
                     placeholderTextColor="gray"
+                    value={formik.values.address}
                 />
 
             </View>

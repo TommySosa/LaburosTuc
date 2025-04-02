@@ -20,6 +20,7 @@ export function InfoForm({ formik }) {
                 <Input placeholder='Descripción'
                     onChangeText={(text) => formik.setFieldValue("description", text)}
                     multiline={true}
+                    value={formik.values.description}
                     errorMessage={formik.errors.description}
                     placeholderTextColor="#bdbdbd"
                 />
@@ -36,7 +37,8 @@ export function InfoForm({ formik }) {
                     valueField="value"
                     placeholder="Selecciona el rubro"
                     searchPlaceholder="Buscar..."
-                    value={category}
+                    // value={category}
+                    value={formik.values.category}
                     onChange={item => {
                         setCategory(item.value);
                         formik.setFieldValue("category", item.label);
@@ -50,21 +52,25 @@ export function InfoForm({ formik }) {
                     errorMessage={formik.errors.schedules}
                     style={{ marginTop: 30 }}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.schedules}
                 />
                 <Input placeholder='Teléfono de contacto'
                     onChangeText={(text) => formik.setFieldValue("phone", text)}
                     errorMessage={formik.errors.phone}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.phone}
                 />
                 <Input placeholder='Email de contacto'
                     onChangeText={(text) => formik.setFieldValue("email", text)}
                     errorMessage={formik.errors.email}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.email}
                 />
                 <Input placeholder='Remuneración'
                     onChangeText={(text) => formik.setFieldValue("remuneration", text)}
                     errorMessage={formik.errors.remuneration}
                     placeholderTextColor="#bdbdbd"
+                    value={formik.values.remuneration && formik.values.remuneration.toString()}
                 />
 
                 <Input placeholder='Ubicación del lugar de trabajo'
@@ -74,7 +80,8 @@ export function InfoForm({ formik }) {
                         color: getColorIconMap(formik),
                         onPress: onOpenCloseMap
                     }}
-                    value={address}
+                    // value={address}
+                    value={formik.values.address}
                     disabled
                     multiline
                     errorMessage={formik.errors.address}
