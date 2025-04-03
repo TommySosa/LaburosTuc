@@ -4,6 +4,8 @@ import Post from "../../../components/Feed/Posts/Post";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -24,6 +26,7 @@ export default function JobScreen({ formik }) {
   const [userLocation, setUserLocation] = useState(null);
   const [selectedDistance, setSelectedDistance] = useState(25);
   const [auth, setAuth] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const authFirebase = getAuth()
@@ -32,7 +35,24 @@ export default function JobScreen({ formik }) {
       // setHasLogged(user ? true : false)
       // setUserId(user ? user.uid : null)
       setAuth(user)
+
+
     })
+
+    const verifyIsAdmin = async () => {
+      if (auth) {
+        const userDocRef = doc(db, "usersInfo", auth.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setIsAdmin(userData.isAdmin || false); // Establecer isAdmin
+        } else {
+          console.log("El documento del usuario no existe.");
+        }
+      }
+    }
+    verifyIsAdmin()
   }, [])
 
   useEffect(() => {
@@ -119,7 +139,7 @@ export default function JobScreen({ formik }) {
 
       <FlatList
         data={posts}
-        renderItem={({ item }) => <Post post={item} screenName="JobScreen" auth={auth} />}
+        renderItem={({ item }) => <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} />}
         keyExtractor={(item) => item.id}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
