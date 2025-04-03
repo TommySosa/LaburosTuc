@@ -15,7 +15,7 @@ import Toast from "react-native-toast-message";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { getStoragePathFromUrl } from "../../../utils/getStoragePathFromUrl";
 
-export default function Post({ post, screenName, auth }) {
+export default function Post({ post, screenName, auth, isAdmin }) {
   const {
     schedules,
     address,
@@ -126,7 +126,7 @@ export default function Post({ post, screenName, auth }) {
   };
 
   const deletePost = async () => {
-    if (!auth || !userInfo || userInfo.idUser !== auth.uid) {
+    if (!auth || !userInfo || userInfo.idUser !== auth.uid && !isAdmin) {
       Toast.show({
         type: "error",
         position: "bottom",
@@ -206,7 +206,7 @@ export default function Post({ post, screenName, auth }) {
           <Text>{userInfo ? userInfo.email : ""}</Text>
           <Text>{formattedDate}</Text>
         </View>
-        {auth && userInfo && userInfo.idUser === auth.uid ? (
+        {(auth && userInfo && userInfo.idUser === auth.uid) || isAdmin ? (
           <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Icon
               type="material-community"
