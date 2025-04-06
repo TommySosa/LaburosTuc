@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import { View, RefreshControl, ActivityIndicator } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import Post from "../../../components/Feed/Posts/Post";
 import {
-  addDoc,
   collection,
-  doc,
-  getDoc,
-  onSnapshot,
-  orderBy,
   query,
+  orderBy,
+  limit,
+  startAfter,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "../../../utils";
-import * as Location from "expo-location";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
-import { getCategories } from "../../../data/getCategories";
-import { calculateDistance } from "../../../utils/calculateDistance";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Text } from "react-native-elements";
 
 export default function JobScreen({ formik }) {
-  const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -28,106 +25,69 @@ export default function JobScreen({ formik }) {
   const [auth, setAuth] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // Estados para la paginación
+  const [lastVisible, setLastVisible] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
-    const authFirebase = getAuth()
+    const authFirebase = getAuth();
 
     onAuthStateChanged(authFirebase, (user) => {
-      // setHasLogged(user ? true : false)
-      // setUserId(user ? user.uid : null)
-      setAuth(user)
-
-
-    })
-
-    const verifyIsAdmin = async () => {
-      if (auth) {
-        const userDocRef = doc(db, "usersInfo", auth.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          setIsAdmin(userData.isAdmin || false); // Establecer isAdmin
-        } else {
-          console.log("El documento del usuario no existe.");
-        }
-      }
-    }
-    verifyIsAdmin()
-  }, [])
-
-  useEffect(() => {
-    const getUserLocation = async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permiso de ubicación denegado");
-        return;
-      }
-      const location = await Location.getCurrentPositionAsync({});
-      setUserLocation({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
-    };
-    getUserLocation();
+      setAuth(user);
+    });
   }, []);
 
+  // Cargar los primeros 4 posts
   useEffect(() => {
-    const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"));
+    const fetchInitialPosts = async () => {
+      const q = query(
+        collection(db, "jobs"),
+        orderBy("createdAt", "desc"),
+        limit(4)
+      );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      setIsRefreshing(true);
+      const snapshot = await getDocs(q);
       const fetchedPosts = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
-      setAllPosts(fetchedPosts);
+
       setPosts(fetchedPosts);
-      setIsRefreshing(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (filteredCategories.length === 0) {
-      setPosts(allPosts);
-    } else {
-      setPosts(
-        allPosts.filter((post) => filteredCategories.includes(post.category))
-      );
-    }
-  }, [filteredCategories, allPosts]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const data = await getCategories();
-      setCategories(data);
+      setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Guardar el último documento
+      setHasMore(snapshot.docs.length === 4); // Verificar si hay más datos
     };
-    fetchCategories();
+
+    fetchInitialPosts();
   }, []);
 
-  useEffect(() => {
-    let filteredPosts = allPosts;
+  // Cargar más posts al hacer scroll
+  const fetchMorePosts = async () => {
+    if (!hasMore || loadingMore) return;
 
-    if (filteredCategories.length > 0) {
-      filteredPosts = filteredPosts.filter((post) =>
-        filteredCategories.includes(post.category)
-      );
-    }
+    setLoadingMore(true);
 
-    if (userLocation) {
-      filteredPosts = filteredPosts.filter((post) => {
-        if (!post.location) return false;
-        const distance = calculateDistance(userLocation, post.location);
-        return distance <= selectedDistance;
-      });
-    }
+    const q = query(
+      collection(db, "jobs"),
+      orderBy("createdAt", "desc"),
+      startAfter(lastVisible), // Comenzar después del último documento cargado
+      limit(4)
+    );
 
-    setPosts(filteredPosts);
-  }, [filteredCategories, allPosts, selectedDistance, userLocation]);
+    const snapshot = await getDocs(q);
+    const fetchedPosts = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setPosts((prevPosts) => [...prevPosts, ...fetchedPosts]);
+    setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Actualizar el último documento
+    setHasMore(snapshot.docs.length === 4); // Verificar si hay más datos
+    setLoadingMore(false);
+  };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <FilterFeed
         placeholder={"Filtrar Empleos"}
         categories={categories}
@@ -137,12 +97,25 @@ export default function JobScreen({ formik }) {
         setDistance={setSelectedDistance}
       />
 
-      <FlatList
+      <FlashList
         data={posts}
-        renderItem={({ item }) => <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} />}
+        renderItem={({ item }) => (
+          <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} />
+        )}
         keyExtractor={(item) => item.id}
+        estimatedItemSize={200} // Tamaño estimado de cada elemento
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
+        }
+        onEndReached={fetchMorePosts} // Llamar a la función para cargar más datos
+        onEndReachedThreshold={0.5} // Activar más cerca del final
+        ListFooterComponent={
+          loadingMore ? (
+            <View style={{ padding: 10, alignItems: "center" }}>
+              <ActivityIndicator size="small" color="#0000ff" />
+              <Text>Cargando más...</Text>
+            </View>
+          ) : null
         }
       />
     </View>
