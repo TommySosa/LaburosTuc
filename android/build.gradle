@@ -2,6 +2,7 @@
 
 buildscript {
     ext {
+        BOOST_VERSION = "1_76_0"
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
         minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
@@ -15,7 +16,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:8.0.2')
+        classpath('com.android.tools.build:gradle')
         classpath('com.facebook.react:react-native-gradle-plugin')
     }
 }
