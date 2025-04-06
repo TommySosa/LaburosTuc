@@ -2,7 +2,6 @@
 
 buildscript {
     ext {
-        BOOST_VERSION = "1_76_0"
         buildToolsVersion = findProperty('android.buildToolsVersion') ?: '34.0.0'
         minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '23')
         compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '34')
@@ -20,6 +19,19 @@ buildscript {
         classpath('com.facebook.react:react-native-gradle-plugin')
     }
 }
+
+ext {
+    buildToolsVersion = '34.0.0'
+    minSdkVersion = 23
+    compileSdkVersion = 34
+    targetSdkVersion = 34
+    kotlinVersion = '1.8.10'
+    ndkVersion = "25.1.8937393"
+    BOOST_VERSION = "1_76_0"
+}
+
+
+ext.BOOST_VERSION = "1_76_0"
 
 apply plugin: "com.facebook.react.rootproject"
 
