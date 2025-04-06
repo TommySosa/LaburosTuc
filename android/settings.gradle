@@ -1,4 +1,4 @@
-rootProject.name = 'laburostuc'
+rootProject.name = 'laburos-tuc'
 
 dependencyResolutionManagement {
   versionCatalogs {
