@@ -9,13 +9,19 @@ import {
   limit,
   startAfter,
   getDocs,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../../../utils";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Text } from "react-native-elements";
+import { getCategories } from "../../../data/getCategories";
+import * as Location from "expo-location";
+import { calculateDistance } from "../../../utils/calculateDistance";
 
 export default function JobScreen({ formik }) {
+  const [allPosts, setAllPosts] = useState([]); // para mantener todos los posts cargados
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -25,7 +31,6 @@ export default function JobScreen({ formik }) {
   const [auth, setAuth] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // Estados para la paginación
   const [lastVisible, setLastVisible] = useState(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -36,41 +41,73 @@ export default function JobScreen({ formik }) {
     onAuthStateChanged(authFirebase, (user) => {
       setAuth(user);
     });
+
+    const verifyIsAdmin = async () => {
+      if (auth) {
+        const userDocRef = doc(db, "usersInfo", auth.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setIsAdmin(userData.isAdmin || false);
+        } else {
+          console.log("El documento del usuario no existe.");
+        }
+      }
+    };
+    verifyIsAdmin();
+  }, [auth]);
+
+  useEffect(() => {
+    const getUserLocation = async () => {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permiso de ubicación denegado");
+        return;
+      }
+      const location = await Location.getCurrentPositionAsync({});
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    };
+    getUserLocation();
   }, []);
 
-  // Cargar los primeros 4 posts
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const data = await getCategories();
+      setCategories(data);
+    };
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     const fetchInitialPosts = async () => {
-      const q = query(
-        collection(db, "jobs"),
-        orderBy("createdAt", "desc"),
-        limit(4)
-      );
-
+      const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"), limit(4));
       const snapshot = await getDocs(q);
       const fetchedPosts = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      setPosts(fetchedPosts);
-      setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Guardar el último documento
-      setHasMore(snapshot.docs.length === 4); // Verificar si hay más datos
+      setAllPosts(fetchedPosts);
+      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+      setHasMore(snapshot.docs.length === 4);
     };
 
     fetchInitialPosts();
   }, []);
 
-  // Cargar más posts al hacer scroll
   const fetchMorePosts = async () => {
-    if (!hasMore || loadingMore) return;
+    if (!hasMore || loadingMore || !lastVisible) return;
 
     setLoadingMore(true);
 
     const q = query(
       collection(db, "jobs"),
       orderBy("createdAt", "desc"),
-      startAfter(lastVisible), // Comenzar después del último documento cargado
+      startAfter(lastVisible),
       limit(4)
     );
 
@@ -80,11 +117,36 @@ export default function JobScreen({ formik }) {
       ...doc.data(),
     }));
 
-    setPosts((prevPosts) => [...prevPosts, ...fetchedPosts]);
-    setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Actualizar el último documento
-    setHasMore(snapshot.docs.length === 4); // Verificar si hay más datos
+    setAllPosts((prev) => [...prev, ...fetchedPosts]);
+
+    if (!snapshot.empty) {
+      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+    }
+
     setLoadingMore(false);
+    if (snapshot.docs.length < 4) {
+      setHasMore(false);
+    }
   };
+
+  // Aplicar filtros cuando cambian allPosts, filtros o la ubicación
+  useEffect(() => {
+    let filtered = allPosts;
+
+    if (filteredCategories.length > 0) {
+      filtered = filtered.filter((post) => filteredCategories.includes(post.category));
+    }
+
+    if (userLocation) {
+      filtered = filtered.filter((post) => {
+        if (!post.location) return false;
+        const distance = calculateDistance(userLocation, post.location);
+        return distance <= selectedDistance;
+      });
+    }
+
+    setPosts(filtered);
+  }, [allPosts, filteredCategories, userLocation, selectedDistance]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -103,12 +165,12 @@ export default function JobScreen({ formik }) {
           <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} />
         )}
         keyExtractor={(item) => item.id}
-        estimatedItemSize={200} // Tamaño estimado de cada elemento
+        estimatedItemSize={300}
         refreshControl={
           <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
         }
-        onEndReached={fetchMorePosts} // Llamar a la función para cargar más datos
-        onEndReachedThreshold={0.5} // Activar más cerca del final
+        onEndReached={fetchMorePosts}
+        onEndReachedThreshold={0.3}
         ListFooterComponent={
           loadingMore ? (
             <View style={{ padding: 10, alignItems: "center" }}>
