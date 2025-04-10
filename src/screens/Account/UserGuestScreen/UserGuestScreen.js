@@ -9,6 +9,7 @@ export function UserGuestScreen() {
     const navigation = useNavigation()
     const goToLogin = () => {
         navigation.navigate(screen.account.login)
+        // navigation.navigate(screen.account.completeUserInfo)
     }
 
     return (
@@ -17,8 +18,8 @@ export function UserGuestScreen() {
             <Image source={require("../../../../assets/img/user-guest.png")}
                 style={styles.image} />
             <Text style={styles.title}>Consultar tu perfil</Text>
-            <Text style={styles.description}>¿Como te describirías para conseguir trabajo? Busca y visualiza
-                los empleos disponibles de una forma sencilla, postulate
+            <Text style={styles.description}>¿Como te describirías para conseguir trabajo? Buscá y visualizá
+                los empleos y servicios disponibles de una forma sencilla, postulate
                 y comenta como ha sido tu experiencia.
             </Text>
 

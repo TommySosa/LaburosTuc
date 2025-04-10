@@ -13,5 +13,9 @@ export const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: "#00a680"
+    },
+    inputAlert: {
+        color: "red",
+        fontSize: 13
     }
 })
