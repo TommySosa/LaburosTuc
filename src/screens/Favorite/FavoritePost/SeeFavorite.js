@@ -16,14 +16,15 @@ import SeeJob from "../../../components/Favorite/SeeJob/SeeJob";
 import SeeService from "../../../components/Favorite/SeeService/SeeService";
 
 export default function SeeFavorite() {
-  const [favPosts, setFavPosts] = useState([]);
+  const [favjob, setFavjob] = useState([]);
+  const [favService, setFavService] = useState([]);
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const auth = getAuth();
   const idUser = auth.currentUser ? auth.currentUser.uid : null;
 
-  // Traer favoritos
+  // Traer empleos favoritos
   useEffect(() => {
     if (idUser != null) {
       const q = query(
@@ -37,7 +38,7 @@ export default function SeeFavorite() {
           id: doc.id,
           ...doc.data(),
         }));
-        setFavPosts(fetchedPosts);
+        setFavjob(fetchedPosts);
         setPosts(fetchedPosts);
         setIsRefreshing(false);
       });
@@ -45,7 +46,26 @@ export default function SeeFavorite() {
       return () => unsubscribe();
     }
   }, [idUser]);
+  // Traer sevicios favoritos
+  useEffect(() => {
+    if (idUser != null) {
+      const q = query(
+        collection(db, "favoritesServices"),
+        where("idUser", "==", idUser)
+      );
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        setIsRefreshing(true);
+        const fetchedPosts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFavService(fetchedPosts);
+        setIsRefreshing(false);
+      });
 
+      return () => unsubscribe();
+    }
+  }, [idUser]);
   return (
     <View>
       {/* <FlatList
@@ -56,8 +76,8 @@ export default function SeeFavorite() {
           <RefreshControl refreshing={isRefreshing} onRefresh={() => {}} />
         }
       /> */}
-      <SeeJob idsFav={favPosts} />
-      <SeeService idsFav={favPosts} />
+      <SeeJob idsFav={favjob} />
+      <SeeService idsFav={favService} />
     </View>
   );
 }
