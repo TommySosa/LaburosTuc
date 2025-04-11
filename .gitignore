@@ -39,3 +39,6 @@ yarn-error.*
 ./src/utils/firebase.js
 src/utils/firebase.js
 utils/firebase.js
+
+#Evitar conflictos
+android/

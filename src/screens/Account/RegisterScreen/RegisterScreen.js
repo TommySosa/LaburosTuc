@@ -8,7 +8,8 @@ import { styles } from './RegisterScreen.styles'
 export function RegisterScreen() {
     return (
         <KeyboardAwareScrollView>
-            <Image source={require("../../../../assets/img/5-tenedores-letras-icono-logo.png")}
+            {/* <Image source={require("../../../../assets/img/5-tenedores-letras-icono-logo.png")} */}
+            <Image source={require("../../../../assets/img/LogoCompleto440x380-sin-fondo.png")}
                 style={styles.image}
             />
             <View style={styles.content}>
