@@ -8,7 +8,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { ChangeCvForm } from "../../../components/Account/ChangeCvForm/ChangeCvForm";
 import { getAuth } from "firebase/auth";
 import { Modal } from "../../../components";
-import { db, screen } from "../../../utils";
+// import { db, screen } from "../../../utils";
+import { db } from "../../../utils/firebase";
+import { screen } from "../../../utils/screenName";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 

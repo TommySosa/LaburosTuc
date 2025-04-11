@@ -2,9 +2,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AccountScreen } from "../screens/Account/AccountScreen";
 import { LoginScreen } from "../screens/Account/LoginScreen/LoginScreen";
 import { RegisterScreen } from "../screens/Account/RegisterScreen/RegisterScreen";
-import { screen } from "../utils";
+import { screen } from "../utils/screenName";
 import { CompleteUserInfo } from "../screens/Account/CompleteUserInfo/CompleteUserInfo";
-import { SeeProfile } from "../screens/Account/SeeProfile/SeeProfile";
 
 const Stack = createNativeStackNavigator();
 

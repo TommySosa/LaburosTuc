@@ -7,7 +7,8 @@ import Toast from 'react-native-toast-message';
 import { styles } from './ChangeCvForm.styles';
 import { useFormik } from 'formik';
 import { initialValues, validationSchema } from './ChangeCvForm.data';
-import { db } from '../../../utils/firebase';
+// import { db } from '../../../utils/firebase';
+import { db } from "../../../../src/utils/firebase.js"
 import {
     doc,
     setDoc,

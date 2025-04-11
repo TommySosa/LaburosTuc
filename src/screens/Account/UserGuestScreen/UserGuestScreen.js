@@ -2,7 +2,7 @@ import { ScrollView } from 'react-native'
 import React from 'react'
 import { useNavigation } from "@react-navigation/native"
 import { Text, Button, Image } from 'react-native-elements'
-import { screen } from '../../../utils'
+import { screen } from '../../../utils/screenName'
 import { styles } from './UserGuestScreen.styles'
 
 export function UserGuestScreen() {

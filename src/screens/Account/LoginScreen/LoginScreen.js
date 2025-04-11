@@ -4,7 +4,7 @@ import { styles } from './LoginScreen.styles'
 import { useNavigation } from '@react-navigation/native'
 import { LoginForm } from "../../../components/Auth"
 import { Text, Image } from 'react-native-elements'
-import { screen } from '../../../utils'
+import { screen } from '../../../utils/screenName'
 
 export function LoginScreen() {
     const navigation = useNavigation()

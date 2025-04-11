@@ -1,5 +1,5 @@
 import { collection, getDocs, onSnapshot, query, orderBy } from "firebase/firestore";
-import { db } from "../utils";
+import { db } from "../utils/firebase";
 
 export const getCategories = async () => {
     try {

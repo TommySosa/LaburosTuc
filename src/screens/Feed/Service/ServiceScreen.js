@@ -8,7 +8,8 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { db } from "../../../utils";
+// import { db } from "../../../utils/firebase";
+import { db } from "../../../utils/firebase";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import * as Location from "expo-location";
 import { calculateDistance } from "../../../utils/calculateDistance";

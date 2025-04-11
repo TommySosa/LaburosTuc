@@ -12,7 +12,8 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { db } from "../../../utils";
+// import { db } from "../../../utils/firebase";
+import { db } from "../../../utils/firebase";
 import FilterFeed from "../../../components/Feed/Filter/FilterFeed";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Text } from "react-native-elements";

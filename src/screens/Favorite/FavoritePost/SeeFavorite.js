@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, RefreshControl, FlatList } from "react-native";
-import Post from "../../../components/Feed/Posts/Post";
+import { View } from "react-native";
 // import { useRoute } from "@react-navigation/native";
 import { getAuth } from "firebase/auth";
 import {
@@ -11,7 +10,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import SeeJob from "../../../components/Favorite/SeeJob/SeeJob";
 import SeeService from "../../../components/Favorite/SeeService/SeeService";
 

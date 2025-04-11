@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { screen } from "../utils";
+import { screen } from "../utils/screenName";
 import AddJobScreen from "../screens/Job/AddJobScreen/AddJobScreen";
 // import EditJobScreen from "../screens/Job/EditJobScreen/EditJobScreen";
 

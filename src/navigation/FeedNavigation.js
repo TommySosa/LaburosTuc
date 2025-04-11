@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { screen } from '../utils';
+import { screen } from '../utils/screenName';
 import JobScreen from '../screens/Feed/Job/JobScreen';
 import ServiceScreen from '../screens/Feed/Service/ServiceScreen'
 
