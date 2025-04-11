@@ -15,7 +15,8 @@ export function UserGuestScreen() {
     return (
         <ScrollView centerContent={true}
             style={styles.content}>
-            <Image source={require("../../../../assets/img/user-guest.png")}
+            {/* <Image source={require("../../../../assets/img/user-guest.png")} */}
+            <Image source={require("../../../../assets/img/usuario-no-logueado-v2.png")}
                 style={styles.image} />
             <Text style={styles.title}>Consultar tu perfil</Text>
             <Text style={styles.description}>¿Como te describirías para conseguir trabajo? Buscá y visualizá
