@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, TextInput, TouchableOpacity, View } from "react-native";
 import { styles } from "../Filter/FilterFeed.styles";
-import { Icon, Text } from "react-native-elements";
+import { Icon, Switch, Text } from "react-native-elements";
 import DistanceSlider from "../../Shared/DistanceSlider/DistanceSlider";
 
 export default function FilterFeed({
@@ -11,6 +11,8 @@ export default function FilterFeed({
   setFilteredCategories,
   distance,
   setDistance,
+  mostrarTodos,
+  setMostrarTodos
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -125,7 +127,18 @@ export default function FilterFeed({
             </ScrollView>
 
           </View>
-          <DistanceSlider distance={distance} setDistance={setDistance} />
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, paddingHorizontal: 10 }}>
+            <Text style={{ marginRight: 10 }}>Mostrar todos</Text>
+            <Switch
+              value={mostrarTodos}
+              // onValueChange={(value) => setMostrarTodos(value)}
+              onValueChange={setMostrarTodos}
+              thumbColor={mostrarTodos ? "#0096c7" : "#ccc"}
+              trackColor={{ false: "#aaa", true: "#0096c7" }}
+            />
+          </View>
+
+          <DistanceSlider distance={distance} setDistance={setDistance} disabled={mostrarTodos} />
 
         </View>
       )}

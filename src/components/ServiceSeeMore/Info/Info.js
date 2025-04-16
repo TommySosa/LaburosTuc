@@ -49,7 +49,7 @@ export function Info({ service }) {
     return (
         <View style={styles.content}>
             <Text style={styles.title}>Información sobre el servicio</Text>
-            {service && <Map location={service.location} name={service.category} />}
+            {/* {service && <Map location={service.location} name={service.category} />} TEMPORALMENTE */}
             {map(listInfo, (item, index) => (
                 item.text && (
                     <ListItem

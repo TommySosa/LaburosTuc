@@ -3,17 +3,18 @@ import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Slider } from "react-native-elements";
 
-export default function DistanceSlider({ distance, setDistance }) {
+export default function DistanceSlider({ distance, setDistance, disabled }) {
     const tempDistance = useRef(distance);
     const navigation = useNavigation();
 
     return (
-        <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
+        <View style={{ marginTop: 10, paddingHorizontal: 10, opacity: disabled ? 0.5 : 1 }}>
             <Text style={{ fontSize: 16, fontWeight: "bold", textAlign: "center", marginBottom: 5 }}>
                 Distancia: {distance} km
             </Text>
 
             <Slider
+                disabled={disabled}
                 value={distance}
                 onValueChange={(value) => {
                     tempDistance.current = value;

@@ -12,7 +12,9 @@ import {
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-import { db, screen } from "../../../utils";
+// import { db, screen } from "../../../utils";
+import { db } from "../../../utils/firebase";
+import { screen } from "../../../utils/screenName";
 import { doc, setDoc } from "firebase/firestore";
 
 export function RegisterForm() {

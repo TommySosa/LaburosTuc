@@ -35,6 +35,7 @@ export default function JobScreen({ formik }) {
   const [lastVisible, setLastVisible] = useState(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [mostrarTodos, setMostrarTodos] = useState(false);
 
   useEffect(() => {
     const authFirebase = getAuth();
@@ -64,6 +65,7 @@ export default function JobScreen({ formik }) {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permiso de ubicación denegado");
+        setMostrarTodos(true)
         return;
       }
       const location = await Location.getCurrentPositionAsync({});
@@ -130,7 +132,6 @@ export default function JobScreen({ formik }) {
     }
   };
 
-  // Aplicar filtros cuando cambian allPosts, filtros o la ubicación
   useEffect(() => {
     let filtered = allPosts;
 
@@ -138,7 +139,7 @@ export default function JobScreen({ formik }) {
       filtered = filtered.filter((post) => filteredCategories.includes(post.category));
     }
 
-    if (userLocation) {
+    if (!mostrarTodos && userLocation) {
       filtered = filtered.filter((post) => {
         if (!post.location) return false;
         const distance = calculateDistance(userLocation, post.location);
@@ -147,7 +148,7 @@ export default function JobScreen({ formik }) {
     }
 
     setPosts(filtered);
-  }, [allPosts, filteredCategories, userLocation, selectedDistance]);
+  }, [allPosts, filteredCategories, userLocation, selectedDistance, mostrarTodos]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -158,6 +159,8 @@ export default function JobScreen({ formik }) {
         setFilteredCategories={setFilteredCategories}
         distance={selectedDistance}
         setDistance={setSelectedDistance}
+        mostrarTodos={mostrarTodos}
+        setMostrarTodos={setMostrarTodos}
       />
 
       <FlashList
