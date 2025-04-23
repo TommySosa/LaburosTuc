@@ -51,7 +51,7 @@ export function Info({ job }) {
     return (
         <View style={styles.content}>
             <Text style={styles.title}>Información sobre el empleo</Text>
-            {/* {job && <Map location={job.location} name={job.category} />} TEMPORALMENTE */}
+            {job && <Map location={job.location} name={job.category} />}
             {map(listInfo, (item, index) => (
                 item.text && (
                     <ListItem key={index} bottomDivider onPress={item.onPress}>

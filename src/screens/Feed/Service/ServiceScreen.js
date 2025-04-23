@@ -25,6 +25,7 @@ export default function ServiceScreen() {
   const [userLocation, setUserLocation] = useState(null);
   const [selectedDistance, setSelectedDistance] = useState(25);
   const [auth, setAuth] = useState(null);
+  const [mostrarTodos, setMostrarTodos] = useState(false);
 
   useEffect(() => {
     const authFirebase = getAuth()
@@ -41,6 +42,7 @@ export default function ServiceScreen() {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permiso de ubicación denegado");
+        setMostrarTodos(true)
         return;
       }
       const location = await Location.getCurrentPositionAsync({});
@@ -108,7 +110,7 @@ export default function ServiceScreen() {
       );
     }
 
-    if (userLocation) {
+    if (!mostrarTodos && userLocation) {
       filteredPosts = filteredPosts.filter((post) => {
         if (!post.location) return false;
         const distance = calculateDistance(userLocation, post.location);
@@ -117,7 +119,7 @@ export default function ServiceScreen() {
     }
 
     setPosts(filteredPosts);
-  }, [filteredCategories, allPosts, selectedDistance, userLocation]);
+  }, [filteredCategories, allPosts, selectedDistance, userLocation, mostrarTodos]);
 
   // useEffect(() => {
   //   loadPosts();
@@ -132,6 +134,8 @@ export default function ServiceScreen() {
         setFilteredCategories={setFilteredCategories}
         distance={selectedDistance}
         setDistance={setSelectedDistance}
+        mostrarTodos={mostrarTodos}
+        setMostrarTodos={setMostrarTodos}
       />
 
       <FlatList

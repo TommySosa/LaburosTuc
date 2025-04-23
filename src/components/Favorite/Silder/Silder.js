@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import Avatar from "../../Shared/Avatar/Avatar";
 import { formatDate } from "../../../utils/formatDate";
 import { useNavigation } from "@react-navigation/native";
-import { screen } from "../../../utils";
+import { screen } from "../../../utils/screenName";
 
 const { width: screenWidth } = Dimensions.get("window"); // Obtener ancho de pantalla
 const CARD_WIDTH = screenWidth * 0.9; // Hacerlo un 90% del ancho de pantalla

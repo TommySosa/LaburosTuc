@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import Slider from "../Silder/Silder";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 
 export default function SeeJob({ idsFav }) {
   const [posts, setPosts] = useState([]);
