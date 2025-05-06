@@ -8,7 +8,7 @@ import { initialValues, validationSchema } from './LoginForm.data'
 import Toast from 'react-native-toast-message'
 import { useNavigation } from '@react-navigation/native'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
-import { screen } from "../../../utils"
+import { screen } from "../../../utils/screenName"
 
 export function LoginForm() {
     const [showPassword, setShowpassword] = useState(false)
@@ -25,6 +25,7 @@ export function LoginForm() {
                     formValue.email,
                     formValue.password
                 );
+
                 navigation.navigate(screen.account.account)
             } catch (error) {
                 Toast.show({
