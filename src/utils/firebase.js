@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore, initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
+    databaseURL: "https://laburostuc.firebaseio.com",
     apiKey: "AIzaSyAxrKC610Yn2mvRu5jqdHtpFmoxtfnP1T8",
     authDomain: "laburostuc.firebaseapp.com",
     projectId: "laburostuc",
@@ -19,7 +20,8 @@ export const auth = initializeAuth(initFirebase, {
 });
 
 export const db = initializeFirestore(initFirebase, {
-    experimentalForceLongPolling: true, // Soluciona problemas con WebSockets en React Native
+    experimentalForceLongPolling: false, // Soluciona problemas con WebSockets en React Native
+    experimentalAutoDetectLongPolling: true, // Soluciona problemas con WebSockets en React Native
     useFetchStreams: false, // Opcional, reduce problemas con conexiones
     cacheSizeBytes: 50 * 1024 * 1024, // 50 MB de cache
 });

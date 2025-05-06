@@ -2,14 +2,12 @@ import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Icon, Image } from "react-native-elements";
 import { collection, deleteDoc, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-// import { db, screen } from "../../../utils";
 import { db } from "../../../utils/firebase";
 import { screen } from "../../../utils/screenName";
 import { calculateDistance } from "../../../utils/calculateDistance";
 import * as Location from "expo-location";
 import { formatDate } from "../../../utils/formatDate";
 import Avatar from "../../Shared/Avatar/Avatar";
-// import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
@@ -17,7 +15,7 @@ import Toast from "react-native-toast-message";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { getStoragePathFromUrl } from "../../../utils/getStoragePathFromUrl";
 
-export default function Post({ post, screenName, auth, isAdmin }) {
+export default function Post({ post, screenName, auth, isAdmin, refreshPosts }) {
   const {
     schedules,
     address,
@@ -173,6 +171,7 @@ export default function Post({ post, screenName, auth, isAdmin }) {
       );
       await Promise.all(deleteFavoritesPromises);
 
+      refreshPosts();
 
       Toast.show({
         type: "success",

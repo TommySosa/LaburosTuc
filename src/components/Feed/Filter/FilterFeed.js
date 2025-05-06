@@ -19,17 +19,10 @@ export default function FilterFeed({
   const [visibleCategories, setVisibleCategories] = useState([]);
   const [itemsToShow, setItemsToShow] = useState(20);
 
-  useEffect(() => {
-    setDistance(distance);
-  }, [distance]);
-
   const toggleFilter = (filter) => {
-    let updatedFilters;
-    if (filteredCategories.includes(filter)) {
-      updatedFilters = filteredCategories.filter(item => item !== filter);
-    } else {
-      updatedFilters = [...filteredCategories, filter];
-    }
+    const updatedFilters = filteredCategories.includes(filter)
+      ? filteredCategories.filter((item) => item !== filter)
+      : [...filteredCategories, filter];
     setFilteredCategories(updatedFilters);
   };
 
@@ -46,17 +39,15 @@ export default function FilterFeed({
   }, [categories, searchTerm, itemsToShow]);
 
   const loadMoreCategories = () => {
-    console.log("Cargando más categorías...");
-
     if (itemsToShow < categories.length) {
       setItemsToShow((prev) => prev + 20);
     }
   };
 
-
   const handleScroll = (event) => {
-    const { layoutMeasurement, contentOffset, contentSize } = event;
-    const isNearBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const isNearBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
     if (isNearBottom) {
       loadMoreCategories();
@@ -71,7 +62,7 @@ export default function FilterFeed({
       >
         <Icon name="search" size={20} color="#0096c7" type="material" />
         <Text style={styles.searchText}>
-          {isFilterOpen ? 'Cerrar filtros' : placeholder}
+          {isFilterOpen ? "Cerrar filtros" : placeholder}
         </Text>
         <Icon
           name={isFilterOpen ? "chevron-up" : "chevron-down"}
@@ -97,41 +88,38 @@ export default function FilterFeed({
             <ScrollView
               contentContainerStyle={styles.filterOptions}
               showsVerticalScrollIndicator={false}
-              onScroll={({ nativeEvent }) => handleScroll(nativeEvent)}
+              onScroll={handleScroll}
               scrollEventThrottle={400}
             >
-              <View style={styles.filterOptions}>
-                {visibleCategories.map((item) => (
-                  <TouchableOpacity
-                    key={item}
+              {visibleCategories.map((item) => (
+                <TouchableOpacity
+                  key={item}
+                  style={[
+                    styles.filterOption,
+                    filteredCategories.includes(item) && styles.filterOptionSelected,
+                  ]}
+                  onPress={() => toggleFilter(item)}
+                >
+                  <Text
                     style={[
-                      styles.filterOption,
-                      filteredCategories.includes(item) && styles.filterOptionSelected,
+                      styles.filterOptionText,
+                      filteredCategories.includes(item) && styles.filterOptionTextSelected,
                     ]}
-                    onPress={() => toggleFilter(item)}
                   >
-                    <Text
-                      style={[
-                        styles.filterOptionText,
-                        filteredCategories.includes(item) && styles.filterOptionTextSelected,
-                      ]}
-                    >
-                      {item}
-                    </Text>
-                    {filteredCategories.includes(item) && (
-                      <Icon name="check" size={16} color="#fff" type="material" />
-                    )}
-                  </TouchableOpacity>
-                ))}
-              </View>
+                    {item}
+                  </Text>
+                  {filteredCategories.includes(item) && (
+                    <Icon name="check" size={16} color="#fff" type="material" />
+                  )}
+                </TouchableOpacity>
+              ))}
             </ScrollView>
-
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10, paddingHorizontal: 10 }}>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 10, paddingHorizontal: 10 }}>
             <Text style={{ marginRight: 10 }}>Mostrar todos</Text>
             <Switch
               value={mostrarTodos}
-              // onValueChange={(value) => setMostrarTodos(value)}
               onValueChange={setMostrarTodos}
               thumbColor={mostrarTodos ? "#0096c7" : "#ccc"}
               trackColor={{ false: "#aaa", true: "#0096c7" }}
@@ -139,7 +127,6 @@ export default function FilterFeed({
           </View>
 
           <DistanceSlider distance={distance} setDistance={setDistance} disabled={mostrarTodos} />
-
         </View>
       )}
 

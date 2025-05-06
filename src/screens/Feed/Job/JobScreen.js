@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, RefreshControl, ActivityIndicator } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import Post from "../../../components/Feed/Posts/Post";
@@ -20,9 +20,11 @@ import { Text } from "react-native-elements";
 import { getCategories } from "../../../data/getCategories";
 import * as Location from "expo-location";
 import { calculateDistance } from "../../../utils/calculateDistance";
+import { useFocusEffect } from '@react-navigation/native';
+
 
 export default function JobScreen({ formik }) {
-  const [allPosts, setAllPosts] = useState([]); // para mantener todos los posts cargados
+  const [allPosts, setAllPosts] = useState([]);
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -37,18 +39,21 @@ export default function JobScreen({ formik }) {
   const [hasMore, setHasMore] = useState(true);
   const [mostrarTodos, setMostrarTodos] = useState(false);
 
+  // Escuchar cambios de autenticación
   useEffect(() => {
     const authFirebase = getAuth();
-
-    onAuthStateChanged(authFirebase, (user) => {
+    const unsubscribe = onAuthStateChanged(authFirebase, (user) => {
       setAuth(user);
     });
+    return unsubscribe;
+  }, []);
 
+  // Verificar si el usuario es admin
+  useEffect(() => {
     const verifyIsAdmin = async () => {
       if (auth) {
         const userDocRef = doc(db, "usersInfo", auth.uid);
         const userDocSnap = await getDoc(userDocRef);
-
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
           setIsAdmin(userData.isAdmin || false);
@@ -60,12 +65,13 @@ export default function JobScreen({ formik }) {
     verifyIsAdmin();
   }, [auth]);
 
+  // Obtener ubicación del usuario
   useEffect(() => {
     const getUserLocation = async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permiso de ubicación denegado");
-        setMostrarTodos(true)
+        setMostrarTodos(true);
         return;
       }
       const location = await Location.getCurrentPositionAsync({});
@@ -77,6 +83,7 @@ export default function JobScreen({ formik }) {
     getUserLocation();
   }, []);
 
+  // Obtener categorías
   useEffect(() => {
     const fetchCategories = async () => {
       const data = await getCategories();
@@ -85,28 +92,40 @@ export default function JobScreen({ formik }) {
     fetchCategories();
   }, []);
 
+  const fetchInitialPosts = async () => {
+    const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"), limit(4));
+    const snapshot = await getDocs(q);
+    const fetchedPosts = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setAllPosts(fetchedPosts);
+    setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
+    setHasMore(snapshot.docs.length === 4);
+  };
+
+  const refreshPosts = async () => {
+    setIsRefreshing(true);
+    await fetchInitialPosts();
+    setIsRefreshing(false);
+  };
+
   useEffect(() => {
-    const fetchInitialPosts = async () => {
-      const q = query(collection(db, "jobs"), orderBy("createdAt", "desc"), limit(4));
-      const snapshot = await getDocs(q);
-      const fetchedPosts = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      setAllPosts(fetchedPosts);
-      setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
-      setHasMore(snapshot.docs.length === 4);
-    };
-
     fetchInitialPosts();
   }, []);
+
+  // Refrescar automáticamente al volver a la pantalla
+  useFocusEffect(
+    useCallback(() => {
+      refreshPosts();
+    }, [])
+  );
 
   const fetchMorePosts = async () => {
     if (!hasMore || loadingMore || !lastVisible) return;
 
     setLoadingMore(true);
-
     const q = query(
       collection(db, "jobs"),
       orderBy("createdAt", "desc"),
@@ -121,7 +140,6 @@ export default function JobScreen({ formik }) {
     }));
 
     setAllPosts((prev) => [...prev, ...fetchedPosts]);
-
     if (!snapshot.empty) {
       setLastVisible(snapshot.docs[snapshot.docs.length - 1]);
     }
@@ -132,6 +150,7 @@ export default function JobScreen({ formik }) {
     }
   };
 
+  // Aplicar filtros
   useEffect(() => {
     let filtered = allPosts;
 
@@ -165,13 +184,14 @@ export default function JobScreen({ formik }) {
 
       <FlashList
         data={posts}
+        contentContainerStyle={{ paddingBottom: 50 }}
         renderItem={({ item }) => (
-          <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} />
+          <Post post={item} screenName="JobScreen" auth={auth} isAdmin={isAdmin} refreshPosts={refreshPosts} />
         )}
         keyExtractor={(item) => item.id}
         estimatedItemSize={300}
         refreshControl={
-          <RefreshControl refreshing={isRefreshing} onRefresh={() => { }} />
+          <RefreshControl refreshing={isRefreshing} onRefresh={refreshPosts} />
         }
         onEndReached={fetchMorePosts}
         onEndReachedThreshold={0.3}
