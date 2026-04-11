@@ -1,7 +1,7 @@
 import { Dimensions, ScrollView } from "react-native";
 import React, { useCallback, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../utils/firebase";
+import { db } from "../../../utils/firebase.js"
 import { Info } from "../../../components/ServiceSeeMore/Info/Info";
 import { Header } from "../../../components/ServiceSeeMore/Header/Header";
 import { Carousel } from "../../../components/Shared/Carousel/Carousel";
