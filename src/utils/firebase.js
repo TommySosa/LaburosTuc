@@ -25,4 +25,3 @@ export const db = initializeFirestore(initFirebase, {
     useFetchStreams: false, // Opcional, reduce problemas con conexiones
     cacheSizeBytes: 50 * 1024 * 1024, // 50 MB de cache
 });
-// export const db = getFirestore(initFirebase)
