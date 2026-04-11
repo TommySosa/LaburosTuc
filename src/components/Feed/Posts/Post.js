@@ -1,21 +1,22 @@
-import { View, Text } from "react-native";
+import { View, Text, Linking } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Icon, Image } from "react-native-elements";
 import { collection, deleteDoc, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
-import { db, screen } from "../../../utils";
+import { db } from "../../../utils/firebase";
+import { screen } from "../../../utils/screenName";
 import { calculateDistance } from "../../../utils/calculateDistance";
 import * as Location from "expo-location";
 import { formatDate } from "../../../utils/formatDate";
 import Avatar from "../../Shared/Avatar/Avatar";
-// import { BtnFavoriteJob } from "../../Shared/BtnFavorite/BtnFavoriteJob";
 import { useNavigation } from "@react-navigation/native";
 import { Modal } from "../../Shared";
 import { ServiceList } from "../../ServiceSeeMore/ServiceList/ServiceList";
 import Toast from "react-native-toast-message";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { getStoragePathFromUrl } from "../../../utils/getStoragePathFromUrl";
+import PostMenu from "./PostMenu";
 
-export default function Post({ post, screenName, auth, isAdmin }) {
+export default function Post({ post, screenName, auth, isAdmin, refreshPosts }) {
   const {
     schedules,
     address,
@@ -36,6 +37,8 @@ export default function Post({ post, screenName, auth, isAdmin }) {
   const onCloseOpenModal = () => setShowModal((prev) => !prev);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const onCloseDeleteModal = () => setShowDeleteModal((prev) => !prev);
+  const email = 'tecnosparksoftware@gmail.com';
+  const [hasLogged, setHasLogged] = useState(null)
 
   if (!createdAt) {
     return null;
@@ -74,10 +77,16 @@ export default function Post({ post, screenName, auth, isAdmin }) {
   }
 
   const seeMore = () => {
-    const scren =
-      screenName === "JobScreen"
-        ? screen.feed.jobSeeMore
-        : screen.feed.serviceSeeMore;
+    setHasLogged(auth ? true : false)
+    let scren;
+
+    if (screenName === "JobScreen" && auth) {
+      scren = screen.feed.jobSeeMore;
+    } else if (screenName === "ServiceScreen" && auth) {
+      scren = screen.feed.serviceSeeMore;
+    } else {
+      scren = screen.account.login;
+    }
 
     if (!scren) {
       console.error("Error al navegar a la pantalla de más información. Post.js");
@@ -89,10 +98,17 @@ export default function Post({ post, screenName, auth, isAdmin }) {
       return;
     }
 
-    navigation.navigate(scren, { id: id });
+    if (scren === screen.account.login) {
+      navigation.navigate(screen.account.tab, {
+        screen: scren,
+      });
+    } else {
+      navigation.navigate(scren, { id });
+    }
   };
 
   const editPost = () => {
+    setHasLogged(auth ? true : false)
     const scren =
       screenName === "JobScreen"
         ? screen.jobs.editJob
@@ -171,6 +187,7 @@ export default function Post({ post, screenName, auth, isAdmin }) {
       );
       await Promise.all(deleteFavoritesPromises);
 
+      refreshPosts();
 
       Toast.show({
         type: "success",
@@ -187,6 +204,23 @@ export default function Post({ post, screenName, auth, isAdmin }) {
       });
     }
   };
+
+  const handleReportarUsuario = () => {
+    const subject = encodeURIComponent('Reporte de usuario');
+    const body = encodeURIComponent(`Estoy reportando al usuario:\n\nEmail: ${userInfo.email}\n\nID: ${userInfo.idUser}\n\nMotivo: conducta inapropiada. \n\n Enviado desde Laburos Tuc.`);
+
+    const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+    Linking.openURL(mailtoUrl).catch(console.error);
+  };
+
+  const handleReportarPublicacion = () => {
+    const subject = encodeURIComponent('Reporte de publicación');
+    const body = encodeURIComponent(`Estoy reportando la publicación del usuario:\n\nEmail: ${userInfo.email}\n\nID USUARIO: ${userInfo.idUser}\n\nID PUBLICACION:${id}\n\n Motivo: conducta inapropiada. \n\n Enviado desde Laburos Tuc.`);
+
+    const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+    Linking.openURL(mailtoUrl).catch(console.error);
+  };
+
 
 
   return (
@@ -206,24 +240,11 @@ export default function Post({ post, screenName, auth, isAdmin }) {
           <Text>{userInfo ? userInfo.email : ""}</Text>
           <Text>{formattedDate}</Text>
         </View>
-        {(auth && userInfo && userInfo.idUser === auth.uid) || isAdmin ? (
-          <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-            <Icon
-              type="material-community"
-              name="pencil-outline"
-              color="#646464"
-              onPress={editPost}
-              containerStyle={{ marginHorizontal: 10 }}
-            />
-            <Icon
-              type="material-community"
-              name="delete-outline"
-              color="red"
-              onPress={onCloseDeleteModal}
-              containerStyle={{ marginHorizontal: 10 }}
-            />
-          </View>
-        ) : null}
+        <View style={{ position: "relative" }}>
+          {/* {showOptions && (             */}
+          <PostMenu editPost={editPost} onCloseDeleteModal={onCloseDeleteModal} handleReportarUsuario={handleReportarUsuario} handleReportarPublicacion={handleReportarPublicacion} mostrarTodasOpciones={((auth && userInfo && userInfo.idUser === auth.uid) || isAdmin)} />
+          {/* )} */}
+        </View>
       </View>
 
       {images[0] ? (

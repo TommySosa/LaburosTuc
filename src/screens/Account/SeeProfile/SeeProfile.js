@@ -1,14 +1,14 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { LoadingModal, Modal } from "../../../components";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { LoadingModal } from "../../../components";
 import { InfoUser } from "../../../components/Account/SeeProfile/InfoUser/InfoUser";
 import { PdfRead } from "../../../components/Shared/PdfRead/PdfRead";
 import { Button, Icon, ListItem } from "react-native-elements";
 import { Skeleton } from "@rneui/base";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { styles } from "./SeeProfile.styles";
 import { map } from "lodash";
 

@@ -14,7 +14,7 @@ import { ChangeEducationForm } from "../../../components/Account/ChangeEducation
 import { ChangeAvalaibilityForm } from "../../../components/Account/ChangeAvalaibilityForm/ChangeAvalaibilityForm";
 import { ChangePhoneForm } from "../../../components/Account/ChangePhoneForm/ChangePhoneForm";
 import { where, query, collection, onSnapshot } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { ChangeCvForm } from "../../../components/Account/ChangeCvForm/ChangeCvForm";
 import { PdfRead } from "../../../components/Shared/PdfRead/PdfRead";
 

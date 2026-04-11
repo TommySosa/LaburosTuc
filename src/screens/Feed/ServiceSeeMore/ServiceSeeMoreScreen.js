@@ -1,32 +1,38 @@
 import { Dimensions, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase.js"
 import { Info } from "../../../components/ServiceSeeMore/Info/Info";
 import { Header } from "../../../components/ServiceSeeMore/Header/Header";
 import { Carousel } from "../../../components/Shared/Carousel/Carousel";
 import { BtnFavoriteService } from "../../../components/Shared/BtnFavorite/BtnFavoriteService";
-import { ServiceList } from "../../../components/ServiceSeeMore/ServiceList/ServiceList";
+import { useFocusEffect } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
 export function ServiceSeeMoreScreen({ route }) {
   const { id } = route.params;
-  const [service, setservice] = useState(null);
+  const [service, setService] = useState(null);
 
-  useEffect(() => {
-    const fetchservice = async () => {
-      const docRef = doc(db, "services", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setservice(docSnap.data());
-      } else {
-        console.log("No such document!");
-      }
-    };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchService = async () => {
+        const docRef = doc(db, "services", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setService(docSnap.data());
+        } else {
+          console.log("No such document!");
+        }
+      };
 
-    fetchservice();
-  }, [id]);
+      fetchService();
+
+      return () => {
+        setService(null); // limpia el estado al desenfocar
+      };
+    }, [id])
+  );
 
   return (
     <ScrollView>

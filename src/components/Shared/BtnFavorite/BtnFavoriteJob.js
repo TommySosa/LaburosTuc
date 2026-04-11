@@ -12,7 +12,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { forEach } from "lodash";
 import { generateRandomNumber } from "../../../utils/generateRandomNumber";
 

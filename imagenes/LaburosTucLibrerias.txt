@@ -1,0 +1,103 @@
+expo-dev-client ~3.0.0
+"expo-document-picker": "~11.5.4"
+"expo-file-system": "~15.4.5",
+"expo-image-picker": "~14.3.2",
+"expo-location": "~16.1.0",
+"expo-splash-screen": "~0.20.5",
+expo-system-ui
+"react-native-screens": "~3.22.0",
+"react-native-maps": "1.7.1",
+"react-native-geocoding": "^0.5.0",
+"expo-location": "~16.5.5",
+"react-native-maps": "1.10.0",
+
+expo-image-loader no la tenia
+
+
+ejecutar con emulador 
+npx expo run:android
+
+
+npx expo install --check
+The following packages should be updated for best compatibility with the installed expo version:
+  @react-native-async-storage/async-storage@1.19.6 - expected version: 1.21.0
+  @shopify/flash-list@1.8.0 - expected version: 1.6.3
+  expo-status-bar@1.6.0 - expected version: ~1.11.1
+  react-native-get-random-values@1.10.0 - expected version: ~1.8.0
+  react-native-pager-view@6.2.0 - expected version: 6.2.3
+  react-native-safe-area-context@4.6.3 - expected version: 4.8.2
+Your project may not work correctly until you install the correct versions of the packages.
+
+db group tipdoc having nrodoc > 1
+64798 colchon
+bici 47500
+
+10377 2
+391 mant
+mio del 10377
+
+
+C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot antes
+C:\Program Files\Microsoft\jdk-11.0.16.101-hotspot ahora
+
+C:\Program Files\Java\jdk-17\ ahora nuevo
+
+
+
+trsv_registro_ejeciones servicio y operacion | fecha inicio y fin
+trv_log_bd nroerror 
+
+
+@Tucyerbabuena777
+Tomas Facundo Sosa
+Software
+TecnoSpark Software
+Yerba Buena
+Tucuman
+AR
+
+keytool -genkeypair -v \
+  -keystore laburos-tuc.keystore \
+  -alias laburos-tuc \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000
+
+cuenta creada hoy con movs de todo estos dias
+ponele que el 2 de mayo recien la marcan para que informe a datanet
+tendria que levantar 50 dias para atrás
+con el cambio se levantaria solo el 2 de mayo(osea no busca los 50 dias si no es necesario)
+
+
+Generacion de datos para informar a datanet 
+Le está demorando más de media hora los procesos de cierre CC Y CA
+Especificamente 3312 porque ademas de otras cuentas informa cuenta PSP(361 en produccion) y Cuentas Recaudadoras
+
+Hay una funcion de datanet que ejecuta un sp principal control recupera
+
+
+25/09/2024
+
+100004535
+
+a partir 26
+
+apartir de diciembre de 2024 hay que generar datos
+
+
+tomas.facundo.sosa@gmail.com
+Eugenia11 usuario --con rol admin en laburostuc
+
+@Tucyerbabuena777123
+@Eugenia11
+
+
+
+46085 compras vea
+253906 moto
+21504 seguro 
+20
+
+
+borra masivamente empieza a procesar cuenta x cuenta que se informan a datanet, saca los ultimos saldos y los graba para una fecha
+como piden 50 dias, son 50 saldos, tiene que tardarse 2 a 3 minutos

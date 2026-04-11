@@ -10,7 +10,7 @@ import { Button } from "react-native-elements";
 import { UploadImageForm } from "../../../components/Shared/UploadImageForm/UploadImageForm";
 import { generateRandomNumber } from "../../../utils/generateRandomNumber";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoadingModal } from "../../../components/Shared/LoadingModal/LoadingModal";
 import { LoginScreen } from "../../Account/LoginScreen/LoginScreen";

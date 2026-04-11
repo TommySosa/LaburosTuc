@@ -7,7 +7,8 @@ import { PrincipalImage } from "../../../components/Shared/PrincipalImage/Princi
 import { Button } from "react-native-elements";
 import { UploadImageForm } from "../../../components/Shared/UploadImageForm/UploadImageForm";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../../utils";
+// import { auth, db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginScreen } from "../../Account/LoginScreen/LoginScreen"

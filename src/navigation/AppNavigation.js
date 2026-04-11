@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon, Text } from "react-native-elements";
 import { AccountStack } from "./AccountStack";
-import { screen } from "../utils";
+import { screen } from "../utils/screenName";
 import { JobStack } from "./JobStack";
 import { useNavigation } from "@react-navigation/native";
 import { ServiceStack } from "./ServiceStack";

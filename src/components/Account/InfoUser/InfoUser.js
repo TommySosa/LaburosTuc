@@ -13,7 +13,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 
 export function InfoUser(props) {
   const { setLoading, setLoadingText } = props;

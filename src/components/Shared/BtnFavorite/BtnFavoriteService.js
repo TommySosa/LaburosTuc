@@ -4,7 +4,7 @@ import { styles } from './BtnFavorite.styles'
 import { Icon } from 'react-native-elements'
 import { doc, setDoc, getDocs, query, where, collection, deleteDoc } from "firebase/firestore"
 import { getAuth } from "firebase/auth"
-import { db } from "../../../utils"
+import { db } from "../../../utils/firebase"
 import { forEach } from 'lodash'
 import { generateRandomNumber } from "../../../utils/generateRandomNumber"
 

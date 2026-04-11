@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, StatusBar } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { screen } from '../utils';
+import { screen } from '../utils/screenName';
 import JobScreen from '../screens/Feed/Job/JobScreen';
 import ServiceScreen from '../screens/Feed/Service/ServiceScreen'
 
@@ -10,18 +10,34 @@ const TopTab = createMaterialTopTabNavigator();
 
 export function FeedNavigation() {
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.notchArea} />
+        <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+            {/* Barra de estado transparente */}
+            <StatusBar
+                translucent={false}
+                backgroundColor="#06E092"
+                barStyle="dark-content"
+            />
             <TopTab.Navigator
-                screenOptions={() => ({
+                screenOptions={{
                     headerShown: false,
                     tabBarActiveTintColor: "#000",
                     tabBarInactiveTintColor: "#646464",
-                    tabBarStyle: { backgroundColor: "#06E092", height: 55 },
-                })}
+                    tabBarStyle: {
+                        backgroundColor: "#06E092",
+                        height: 55,
+                    },
+                }}
             >
-                <TopTab.Screen name={screen.jobs.jobs} component={JobScreen} options={{ title: "Empleos" }} />
-                <TopTab.Screen name={screen.services.services} component={ServiceScreen} options={{ title: "Servicios" }} />
+                <TopTab.Screen
+                    name={screen.jobs.jobs}
+                    component={JobScreen}
+                    options={{ title: "Empleos" }}
+                />
+                <TopTab.Screen
+                    name={screen.services.services}
+                    component={ServiceScreen}
+                    options={{ title: "Servicios" }}
+                />
             </TopTab.Navigator>
         </SafeAreaView>
     );

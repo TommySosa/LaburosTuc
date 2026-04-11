@@ -9,7 +9,8 @@ import { Button } from "react-native-elements";
 import { UploadImageForm } from "../../../components/Shared/UploadImageForm/UploadImageForm";
 import { generateRandomNumber } from "../../../utils/generateRandomNumber";
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../../utils";
+// import { auth, db } from "../../../utils";
+import { db } from "../../../utils/firebase";
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { LoginScreen } from "../../Account/LoginScreen/LoginScreen"
