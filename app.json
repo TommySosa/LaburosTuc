@@ -3,6 +3,7 @@
     "name": "Laburos Tuc",
     "slug": "laburos-tuc",
     "version": "1.1.4",
+    "versionCode": 6,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
