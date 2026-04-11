@@ -42,3 +42,5 @@ yarn-error.*
 
 #Evitar conflictos
 android/
+
+*.keystore
